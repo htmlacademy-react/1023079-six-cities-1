@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Алексей Свирин](https://up.htmlacademy.ru/react-individual/1/user/1023079).
-* Наставник: `Неизвестно`.
+* Наставник: [Алина Вишнякова](https://htmlacademy.ru/profile/malina_ve).
 
 ---
 
