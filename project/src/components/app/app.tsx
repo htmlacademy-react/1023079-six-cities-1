@@ -4,8 +4,8 @@ type AppProps = {
   offersCount: number;
 }
 
-function App(props: AppProps): JSX.Element {
-  return <StartPage offersCount = {props.offersCount}/>;
+function App({offersCount}: AppProps): JSX.Element {
+  return <StartPage offersCount = {offersCount}/>;
 }
 
 export default App;

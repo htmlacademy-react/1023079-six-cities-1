@@ -4,7 +4,7 @@ type StartScreenProps = {
   offersCount: number;
 }
 
-export default function StartPage(props: StartScreenProps): JSX.Element {
+export default function StartPage({offersCount}: StartScreenProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -95,7 +95,7 @@ export default function StartPage(props: StartScreenProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {Array.from({length: props.offersCount}, (_, index) => (
+                {Array.from({length: offersCount}, (_, index) => (
                   <Card key={index}/>
                 ))}
               </div>
