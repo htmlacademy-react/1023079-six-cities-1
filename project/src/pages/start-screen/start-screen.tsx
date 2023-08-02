@@ -1,5 +1,5 @@
-import Card from '../../components/app/card-component';
-import {Link} from 'react-router-dom';
+import Card from '../../components/card/card-component';
+import Logo from '../../components/logo/logo';
 
 type StartScreenProps = {
   offersCount: number;
@@ -12,9 +12,7 @@ export default function StartScreen({offersCount}: StartScreenProps): JSX.Elemen
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <Link className="header__logo-link header__logo-link--active" to='/'>
-                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
-              </Link>
+              <Logo />
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
