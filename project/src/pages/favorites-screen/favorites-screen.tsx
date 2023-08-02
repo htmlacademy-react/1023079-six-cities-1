@@ -1,8 +1,10 @@
+import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
 
 export default function FavoritesScreen(): JSX.Element {
   return (
     <div className="page">
+      <Helmet><title>Favorites</title></Helmet>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">

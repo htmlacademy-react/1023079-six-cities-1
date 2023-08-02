@@ -1,5 +1,6 @@
 import Card from '../../components/card/card-component';
 import Logo from '../../components/logo/logo';
+import { Helmet } from 'react-helmet-async';
 
 type StartScreenProps = {
   offersCount: number;
@@ -8,6 +9,7 @@ type StartScreenProps = {
 export default function StartScreen({offersCount}: StartScreenProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
+      <Helmet><title>Six Cities</title></Helmet>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
