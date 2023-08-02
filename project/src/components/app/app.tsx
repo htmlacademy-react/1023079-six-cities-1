@@ -1,11 +1,32 @@
-import StartPage from '../../pages/start-screen/start-screen';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AppRoutes } from '../../consts';
+import StartScreen from '../../pages/start-screen/start-screen';
+import NotFound from '../../pages/not-found-screen/not-found-screen';
+import OfferScreen from '../../pages/offer-screen/offer-screen';
+import FavoritesScreen from '../../pages/favorites-screen/favorites-screen';
+import LoginScreen from '../../pages/login-screen/login-screen';
+
 
 type AppProps = {
   offersCount: number;
 }
 
 function App({offersCount}: AppProps): JSX.Element {
-  return <StartPage offersCount = {offersCount}/>;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path={AppRoutes.Main}>
+          <Route index element={<StartScreen offersCount={offersCount}/>} />
+          <Route path={AppRoutes.Favorites} element={<FavoritesScreen />} />
+          <Route path={AppRoutes.Login} element={<LoginScreen />}/>
+          <Route path={AppRoutes.Rooms}>
+            <Route path={AppRoutes.Room} element={<OfferScreen />} />
+          </Route>
+        </Route>
+        <Route path='*' element={<NotFound />}/>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;

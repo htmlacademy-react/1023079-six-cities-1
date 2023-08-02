@@ -4,7 +4,7 @@ type StartScreenProps = {
   offersCount: number;
 }
 
-export default function StartPage({offersCount}: StartScreenProps): JSX.Element {
+export default function StartScreen({offersCount}: StartScreenProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
