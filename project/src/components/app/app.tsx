@@ -28,9 +28,7 @@ function App({ offersCount }: AppProps): JSX.Element {
               }
             />
             <Route path={AppRoutes.Login} element={<LoginScreen />} />
-            <Route path={AppRoutes.Rooms}>
-              <Route path={AppRoutes.Room} element={<OfferScreen />} />
-            </Route>
+            <Route path={AppRoutes.Room} element={<OfferScreen />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

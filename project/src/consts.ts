@@ -8,8 +8,8 @@ export const AppRoutes: AppRoutesType = {
   Main: '/',
   Login: '/login',
   Favorites: '/favorites',
-  Rooms: '/offer',
-  Room: ':id'
+  Room: '/offer/:id'
+
 } as const;
 
 export const AuthorizationsStatus: AuthorizationsType = {
