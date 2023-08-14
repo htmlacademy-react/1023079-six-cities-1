@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 type CardProps = {
   price: number;
   img: string;
@@ -9,17 +7,9 @@ type CardProps = {
 }
 
 export default function Card({price, img, type, description, onMouseOver}: CardProps): JSX.Element {
-  const setIsActive = useState(false)[1];
-
-  const mouseOverHandler = () => {
-    if(onMouseOver) {
-      onMouseOver();
-    }
-    setIsActive(true);
-  };
 
   return (
-    <article className="cities__card place-card" onMouseOver={mouseOverHandler}>
+    <article className="cities__card place-card" onMouseOver={onMouseOver}>
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#">
           <img
