@@ -1,4 +1,4 @@
-import Card from '../../components/card/card-component';
+import { OfferList } from '../../components/offers-list/offers-list';
 import Logo from '../../components/logo/logo';
 import { Helmet } from 'react-helmet-async';
 import { OfferType } from '../../mocks/offers';
@@ -114,15 +114,7 @@ export default function StartScreen({ offers }: StartScreenProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {offers.map((offer) => (
-                  <Card
-                    key={offer.id}
-                    price={offer.price}
-                    img={offer.previewImage}
-                    type={offer.type}
-                    description={offer.description}
-                  />
-                ))}
+                <OfferList offers = {offers} />
               </div>
             </section>
             <div className="cities__right-section">
