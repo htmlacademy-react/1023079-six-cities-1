@@ -1,13 +1,25 @@
+import { useState } from 'react';
+
 type CardProps = {
   price: number;
   img: string;
   type: string;
   description: string;
+  onMouseOver?: () => void;
 }
 
-export default function Card({price, img, type, description}: CardProps): JSX.Element {
+export default function Card({price, img, type, description, onMouseOver}: CardProps): JSX.Element {
+  const setIsActive = useState(false)[1];
+
+  const mouseOverHandler = () => {
+    if(onMouseOver) {
+      onMouseOver();
+    }
+    setIsActive(true);
+  };
+
   return (
-    <article className="cities__card place-card">
+    <article className="cities__card place-card" onMouseOver={mouseOverHandler}>
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#">
           <img
