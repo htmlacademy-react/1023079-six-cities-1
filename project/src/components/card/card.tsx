@@ -3,13 +3,14 @@ type CardProps = {
   img: string;
   type: string;
   description: string;
-  onMouseOver?: () => void;
+  onMouseOver: () => void;
+  onMouseLeave: () => void;
 }
 
-export default function Card({price, img, type, description, onMouseOver}: CardProps): JSX.Element {
+export default function Card({price, img, type, description, onMouseOver, onMouseLeave}: CardProps): JSX.Element {
 
   return (
-    <article className="cities__card place-card" onMouseOver={onMouseOver}>
+    <article className="cities__card place-card" onMouseOver={onMouseOver} onMouseLeave={onMouseLeave}>
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#">
           <img

@@ -17,6 +17,14 @@ export function OfferList({offers}: OfferListType): JSX.Element {
     });
   };
 
+  const handleCardMouseLeave = (id: number) => {
+    setIsCardActive(() => {
+      const newState = [...isCardActive];
+      newState[id] = false;
+      return newState;
+    });
+  };
+
   return (
     <React.Fragment>
       {offers.map((offer: OfferType) => (
@@ -27,6 +35,7 @@ export function OfferList({offers}: OfferListType): JSX.Element {
           type={offer.type}
           description={offer.description}
           onMouseOver={() => handleCardMouseOver(offer.id ? offer.id : 0)}
+          onMouseLeave={() => handleCardMouseLeave(offer.id ? offer.id : 0)}
         />
       ))}
     </React.Fragment>
