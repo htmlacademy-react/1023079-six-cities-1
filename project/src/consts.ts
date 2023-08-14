@@ -17,3 +17,5 @@ export const AuthorizationsStatus: AuthorizationsType = {
   NoAuth: 'NO_AUTH',
   Unknown: 'UNKNOWN'
 } as const;
+
+export const MOCK_OFFERS_COUNT = 4;
