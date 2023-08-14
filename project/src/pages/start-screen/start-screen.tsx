@@ -5,12 +5,14 @@ import { OfferType } from '../../mocks/offers';
 
 type StartScreenProps = {
   offers: OfferType[];
-}
+};
 
-export default function StartScreen({offers}: StartScreenProps): JSX.Element {
+export default function StartScreen({ offers }: StartScreenProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
-      <Helmet><title>Six Cities</title></Helmet>
+      <Helmet>
+        <title>Six Cities</title>
+      </Helmet>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
@@ -20,10 +22,14 @@ export default function StartScreen({offers}: StartScreenProps): JSX.Element {
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                  <a
+                    className="header__nav-link header__nav-link--profile"
+                    href="#"
+                  >
+                    <div className="header__avatar-wrapper user__avatar-wrapper"></div>
+                    <span className="header__user-name user__name">
+                      Oliver.conner@gmail.com
+                    </span>
                     <span className="header__favorite-count">3</span>
                   </a>
                 </li>
@@ -90,14 +96,33 @@ export default function StartScreen({offers}: StartScreenProps): JSX.Element {
                   </svg>
                 </span>
                 <ul className="places__options places__options--custom places__options--opened">
-                  <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                  <li className="places__option" tabIndex={0}>Price: low to high</li>
-                  <li className="places__option" tabIndex={0}>Price: high to low</li>
-                  <li className="places__option" tabIndex={0}>Top rated first</li>
+                  <li
+                    className="places__option places__option--active"
+                    tabIndex={0}
+                  >
+                    Popular
+                  </li>
+                  <li className="places__option" tabIndex={0}>
+                    Price: low to high
+                  </li>
+                  <li className="places__option" tabIndex={0}>
+                    Price: high to low
+                  </li>
+                  <li className="places__option" tabIndex={0}>
+                    Top rated first
+                  </li>
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {offers.map((offer) => <Card key={offer.id}/>)}
+                {offers.map((offer) => (
+                  <Card
+                    key={offer.id}
+                    price={offer.price}
+                    img={offer.previewImage}
+                    type={offer.type}
+                    description={offer.description}
+                  />
+                ))}
               </div>
             </section>
             <div className="cities__right-section">

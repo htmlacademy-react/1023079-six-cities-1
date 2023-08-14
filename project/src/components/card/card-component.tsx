@@ -1,11 +1,18 @@
-export default function Card(): JSX.Element {
+type CardProps = {
+  price: number;
+  img: string;
+  type: string;
+  description: string;
+}
+
+export default function Card({price, img, type, description}: CardProps): JSX.Element {
   return (
     <article className="cities__card place-card">
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#">
           <img
             className="place-card__image"
-            src="img/room.jpg"
+            src={img}
             width="260"
             height="200"
             alt="Place image"
@@ -15,7 +22,7 @@ export default function Card(): JSX.Element {
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">&euro;80</b>
+            <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
@@ -35,9 +42,9 @@ export default function Card(): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">Wood and stone place</a>
+          <a href="#">{description}</a>
         </h2>
-        <p className="place-card__type">Private room</p>
+        <p className="place-card__type">{type}</p>
       </div>
     </article>
   );
