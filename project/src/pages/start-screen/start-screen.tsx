@@ -1,12 +1,13 @@
 import Card from '../../components/card/card-component';
 import Logo from '../../components/logo/logo';
 import { Helmet } from 'react-helmet-async';
+import { OfferType } from '../../mocks/offers';
 
 type StartScreenProps = {
-  offersCount: number;
+  offers: OfferType[];
 }
 
-export default function StartScreen({offersCount}: StartScreenProps): JSX.Element {
+export default function StartScreen({offers}: StartScreenProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <Helmet><title>Six Cities</title></Helmet>
@@ -96,9 +97,7 @@ export default function StartScreen({offersCount}: StartScreenProps): JSX.Elemen
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {Array.from({length: offersCount}, (_, index) => (
-                  <Card key={index}/>
-                ))}
+                {offers.map((offer) => <Card key={offer.id}/>)}
               </div>
             </section>
             <div className="cities__right-section">

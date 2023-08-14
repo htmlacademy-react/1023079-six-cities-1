@@ -1,6 +1,6 @@
 import { MOCK_OFFERS_COUNT } from '../consts';
 
-type OfferType = {
+export type OfferType = {
   id?: number;
   bedrooms: number;
   city: {
