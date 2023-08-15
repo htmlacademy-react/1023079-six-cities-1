@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom';
+import { AppRoutes } from '../../consts';
+
 type CardProps = {
   price: number;
   img: string;
@@ -45,7 +48,7 @@ export default function Card({price, img, type, description, onMouseOver, onMous
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{description}</a>
+          <Link to={AppRoutes.Room}>{description}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>

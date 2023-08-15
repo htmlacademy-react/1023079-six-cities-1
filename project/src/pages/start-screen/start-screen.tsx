@@ -2,6 +2,8 @@ import { OfferList } from '../../components/offers-list/offers-list';
 import Logo from '../../components/logo/logo';
 import { Helmet } from 'react-helmet-async';
 import { OfferType } from '../../mocks/offers';
+import { Link } from 'react-router-dom';
+import { AppRoutes } from '../../consts';
 
 type StartScreenProps = {
   offers: OfferType[];
@@ -22,16 +24,16 @@ export default function StartScreen({ offers }: StartScreenProps): JSX.Element {
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <a
+                  <Link
                     className="header__nav-link header__nav-link--profile"
-                    href="#"
+                    to={AppRoutes.Favorites}
                   >
                     <div className="header__avatar-wrapper user__avatar-wrapper"></div>
                     <span className="header__user-name user__name">
                       Oliver.conner@gmail.com
                     </span>
                     <span className="header__favorite-count">3</span>
-                  </a>
+                  </Link>
                 </li>
                 <li className="header__nav-item">
                   <a className="header__nav-link" href="#">
