@@ -3,8 +3,8 @@ type CardProps = {
   img: string;
   type: string;
   description: string;
-  onMouseOver: () => void;
-  onMouseLeave: () => void;
+  onMouseOver?: () => void;
+  onMouseLeave?: () => void;
 }
 
 export default function Card({price, img, type, description, onMouseOver, onMouseLeave}: CardProps): JSX.Element {
