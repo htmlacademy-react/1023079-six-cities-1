@@ -69,19 +69,6 @@ const OFFER: OfferType = {
   type: 'apartment',
 };
 
-// const makeMockOffers = (count: number) => {
-//   const result = [];
-//   for(let i = 0; i < count; i++) {
-//     const offer = OFFER;
-//     offer.id = i;
-//     result.push(offer);
-//   }
-
-//   return result;
-// };
-
-// export const OFFERS: OfferType[] = makeMockOffers(MOCK_OFFERS_COUNT);
-
 export const OFFERS: OfferType[] = Array.from({length: MOCK_OFFERS_COUNT}, (_, i) => {
   const offer = {...OFFER, id: i};
   return offer;
