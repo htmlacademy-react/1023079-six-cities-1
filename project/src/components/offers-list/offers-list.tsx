@@ -7,22 +7,16 @@ type OfferListType = {
 }
 
 export function OfferList({offers}: OfferListType): JSX.Element {
-  const [isCardActive, setIsCardActive] = useState(offers.map(() => false));
 
-  const handleCardMouseOver = (id: number) => {
-    setIsCardActive(() => {
-      const newState = [...isCardActive];
-      newState[id] = true;
-      return newState;
-    });
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [activeCardId, setActiveCardId] = useState(-1);
+
+  const onMouseOverHandler = (id: number) => {
+    setActiveCardId(id);
   };
 
-  const handleCardMouseLeave = (id: number) => {
-    setIsCardActive(() => {
-      const newState = [...isCardActive];
-      newState[id] = false;
-      return newState;
-    });
+  const onMouseLeave = () => {
+    setActiveCardId(-1);
   };
 
   return (
@@ -34,8 +28,8 @@ export function OfferList({offers}: OfferListType): JSX.Element {
           img={offer.previewImage}
           type={offer.type}
           description={offer.description}
-          onMouseOver={() => handleCardMouseOver(offer.id ? offer.id : 0)}
-          onMouseLeave={() => handleCardMouseLeave(offer.id ? offer.id : 0)}
+          onMouseOver={() => onMouseOverHandler(offer.id !== undefined ? offer.id : -1)}
+          onMouseLeave={onMouseLeave}
         />
       ))}
     </React.Fragment>
