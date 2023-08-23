@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { OfferType } from '../../mocks/offers';
 import { Link } from 'react-router-dom';
 import { AppRoutes } from '../../consts';
+import Map from '../../components/map/map';
 
 type StartScreenProps = {
   offers: OfferType[];
@@ -120,7 +121,9 @@ export default function StartScreen({ offers }: StartScreenProps): JSX.Element {
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <section className="cities__map map">
+                <Map city={offers[0].city} offers={offers}/>
+              </section>
             </div>
           </div>
         </div>

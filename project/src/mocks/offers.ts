@@ -74,8 +74,5 @@ export const OFFERS: OfferType[] = Array.from({length: MOCK_OFFERS_COUNT}, (_, i
     zoom: 8
   };
 
-
-  // eslint-disable-next-line no-console
-  console.log(offer);
   return offer;
 });
