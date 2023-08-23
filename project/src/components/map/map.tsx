@@ -14,9 +14,10 @@ type MapProps = {
     name: string;
   };
   offers: OfferType[];
+  selectedOfferId: number;
 }
 
-export default function Map({city, offers}: MapProps) {
+export default function Map({city, offers, selectedOfferId}: MapProps) {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const map = useMap(city, mapRef as MutableRefObject<HTMLElement>);
 
@@ -26,11 +27,11 @@ export default function Map({city, offers}: MapProps) {
     iconAnchor: [20, 40],
   });
 
-  // const currentCustomIcon = leaflet.icon({
-  //   iconUrl: './img/pin-active.svg',
-  //   iconSize: [40, 40],
-  //   iconAnchor: [20, 40],
-  // });
+  const currentCustomIcon = leaflet.icon({
+    iconUrl: './img/pin-active.svg',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+  });
 
   useEffect(() => {
     if(map) {
@@ -39,12 +40,14 @@ export default function Map({city, offers}: MapProps) {
           lat: offer.city.location.latitude,
           lng: offer.city.location.longitude
         }, {
-          icon: defaultCustomIcon
+          icon: (offer.id === selectedOfferId)
+            ? currentCustomIcon
+            : defaultCustomIcon
         })
           .addTo(map);
       });
     }
-  }, [map, offers]);
+  }, [map, offers, selectedOfferId]);
 
   return (
     <div ref={mapRef} style={{height: '100%'}}/>

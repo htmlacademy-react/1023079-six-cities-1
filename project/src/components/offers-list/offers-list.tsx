@@ -4,15 +4,17 @@ import React, { useState } from 'react';
 
 type OfferListType = {
   offers: OfferType[];
+  onOfferListItemHover: (id: number) => void;
 }
 
-export function OfferList({offers}: OfferListType): JSX.Element {
+export function OfferList({offers, onOfferListItemHover}: OfferListType): JSX.Element {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [activeCardId, setActiveCardId] = useState(-1);
 
   const onMouseOverHandler = (id: number) => {
     setActiveCardId(id);
+    onOfferListItemHover(id);
   };
 
   const onMouseLeave = () => {

@@ -37,7 +37,7 @@ export default function useMap(city: LocationProps, mapRef: MutableRefObject<HTM
       setMap(instance);
       isRenderedRef.current = true;
     }
-  }, [mapRef, city]);
+  }, [city]);
 
   return map;
 }

@@ -5,12 +5,20 @@ import { OfferType } from '../../mocks/offers';
 import { Link } from 'react-router-dom';
 import { AppRoutes } from '../../consts';
 import Map from '../../components/map/map';
+import { useState } from 'react';
 
 type StartScreenProps = {
   offers: OfferType[];
 };
 
 export default function StartScreen({ offers }: StartScreenProps): JSX.Element {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [selectedOfferId, setSelectedOfferId] = useState(-1);
+
+  const onOfferListItemHover = (id: number) => {
+    setSelectedOfferId(id);
+  };
+
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -117,12 +125,12 @@ export default function StartScreen({ offers }: StartScreenProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <OfferList offers = {offers} />
+                <OfferList offers = {offers} onOfferListItemHover = {onOfferListItemHover}/>
               </div>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map city={offers[0].city} offers={offers}/>
+                <Map city={offers[0].city} offers={offers} selectedOfferId={selectedOfferId}/>
               </section>
             </div>
           </div>
