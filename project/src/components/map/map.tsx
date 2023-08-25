@@ -20,34 +20,40 @@ type MapProps = {
 export default function Map({city, offers, selectedOfferId}: MapProps) {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const map = useMap(city, mapRef as MutableRefObject<HTMLElement>);
+  const markersRef = useRef<leaflet.Marker[]>([]);
 
   const defaultCustomIcon = leaflet.icon({
-    iconUrl: './img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
+    iconUrl: 'img/pin.svg',
+    iconSize: [12, 39],
+    iconAnchor: [13.5, 39],
   });
 
   const currentCustomIcon = leaflet.icon({
-    iconUrl: './img/pin-active.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
+    iconUrl: 'img/pin-active.svg',
+    iconSize: [27, 39],
+    iconAnchor: [13.5, 39],
   });
 
   useEffect(() => {
     if(map) {
+      markersRef.current.forEach((marker) => marker.remove());
+
       offers.forEach((offer) => {
-        leaflet.marker({
-          lat: offer.city.location.latitude,
-          lng: offer.city.location.longitude
+        const marker = leaflet.marker({
+          lat: offer.location?.latitude as number,
+          lng: offer.location?.longitude as number
         }, {
           icon: (offer.id === selectedOfferId)
             ? currentCustomIcon
             : defaultCustomIcon
         })
           .addTo(map);
+
+        markersRef.current.push(marker);
       });
     }
-  }, [map, offers, selectedOfferId]);
+
+  }, [offers, selectedOfferId]);
 
   return (
     <div ref={mapRef} style={{height: '100%'}}/>

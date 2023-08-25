@@ -24,8 +24,8 @@ export type OfferType = {
   isFavorite: boolean;
   isPremium: boolean;
   location?: {
-    latitude?: number;
-    longitude?: number;
+    latitude: number;
+    longitude: number;
     zoom: number;
   };
   maxAdults: number;
