@@ -15,16 +15,16 @@ type MapProps = {
   };
   offers: OfferType[];
   selectedOfferId: number;
-}
+};
 
-export default function Map({city, offers, selectedOfferId}: MapProps) {
+export default function Map({ city, offers, selectedOfferId }: MapProps) {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const map = useMap(city, mapRef as MutableRefObject<HTMLElement>);
   const markersRef = useRef<leaflet.Marker[]>([]);
 
   const defaultCustomIcon = leaflet.icon({
     iconUrl: 'img/pin.svg',
-    iconSize: [12, 39],
+    iconSize: [27, 39],
     iconAnchor: [13.5, 39],
   });
 
@@ -35,27 +35,28 @@ export default function Map({city, offers, selectedOfferId}: MapProps) {
   });
 
   useEffect(() => {
-    if(map) {
+    if (map) {
       markersRef.current.forEach((marker) => marker.remove());
 
       offers.forEach((offer) => {
-        const marker = leaflet.marker({
-          lat: offer.location?.latitude as number,
-          lng: offer.location?.longitude as number
-        }, {
-          icon: (offer.id === selectedOfferId)
-            ? currentCustomIcon
-            : defaultCustomIcon
-        })
+        const marker = leaflet
+          .marker(
+            {
+              lat: offer.location.latitude,
+              lng: offer.location.longitude,
+            },
+            {
+              icon:
+                offer.id === selectedOfferId
+                  ? currentCustomIcon
+                  : defaultCustomIcon,
+            }
+          )
           .addTo(map);
-
         markersRef.current.push(marker);
       });
     }
-
   }, [offers, selectedOfferId]);
 
-  return (
-    <div ref={mapRef} style={{height: '100%'}}/>
-  );
+  return <div ref={mapRef} style={{ height: '100%' }} />;
 }

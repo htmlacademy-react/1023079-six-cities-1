@@ -23,7 +23,7 @@ export type OfferType = {
   images: [string];
   isFavorite: boolean;
   isPremium: boolean;
-  location?: {
+  location: {
     latitude: number;
     longitude: number;
     zoom: number;
@@ -63,6 +63,11 @@ const OFFER: OfferType = {
   rating: 4.8,
   title: 'Beautiful & luxurious studio at great location',
   type: 'apartment',
+  location: {
+    latitude: 1,
+    longitude: 1,
+    zoom: 1
+  }
 };
 
 export const OFFERS: OfferType[] = Array.from({length: MOCK_OFFERS_COUNT}, (_, i) => {

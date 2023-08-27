@@ -12,7 +12,6 @@ type StartScreenProps = {
 };
 
 export default function StartScreen({ offers }: StartScreenProps): JSX.Element {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedOfferId, setSelectedOfferId] = useState(-1);
 
   const onOfferListItemHover = (id: number) => {
