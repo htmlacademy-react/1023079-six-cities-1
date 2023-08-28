@@ -24,6 +24,7 @@ export const AuthorizationsStatus: AuthorizationsType = {
 } as const;
 
 export const MOCK_OFFERS_COUNT = 4;
+export const MOCK_REVIEWS_COUNT = 3;
 
 export const STARS_DATA: StarsDataType = [
   {
