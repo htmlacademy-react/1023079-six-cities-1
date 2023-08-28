@@ -1,4 +1,5 @@
 import { MOCK_OFFERS_COUNT } from '../consts';
+import { LAT_LON_DATA } from '../consts';
 
 export type OfferType = {
   id?: number;
@@ -56,20 +57,27 @@ const OFFER: OfferType = {
   images: ['img/1.png'],
   isFavorite: true,
   isPremium: true,
-  location: {
-    latitude: 52.35514938496378,
-    longitude: 4.673877537499948,
-    zoom: 8,
-  },
   maxAdults: 4,
   previewImage: 'img/apartment-02.jpg',
   price: 120,
   rating: 4.8,
   title: 'Beautiful & luxurious studio at great location',
   type: 'apartment',
+  location: {
+    latitude: 1,
+    longitude: 1,
+    zoom: 1
+  }
 };
 
 export const OFFERS: OfferType[] = Array.from({length: MOCK_OFFERS_COUNT}, (_, i) => {
-  const offer = {...OFFER, id: i};
+  const offer = {...OFFER};
+  offer.id = i;
+  offer.location = {
+    latitude: LAT_LON_DATA[i].lat,
+    longitude: LAT_LON_DATA[i].lon,
+    zoom: 8
+  };
+
   return offer;
 });
