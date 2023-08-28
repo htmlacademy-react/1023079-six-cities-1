@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import { AppRoutes } from '../../consts';
 
 type CardProps = {
   price: number;
+  id: number;
   img: string;
   type: string;
   description: string;
@@ -10,7 +10,7 @@ type CardProps = {
   onMouseLeave?: () => void;
 }
 
-export default function Card({price, img, type, description, onMouseOver, onMouseLeave}: CardProps): JSX.Element {
+export default function Card({price, img, type, description, id, onMouseOver, onMouseLeave}: CardProps): JSX.Element {
 
   return (
     <article className="cities__card place-card" onMouseOver={onMouseOver} onMouseLeave={onMouseLeave}>
@@ -48,7 +48,7 @@ export default function Card({price, img, type, description, onMouseOver, onMous
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={AppRoutes.Room}>{description}</Link>
+          <Link to={`/offer/${id}`}>{description}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>

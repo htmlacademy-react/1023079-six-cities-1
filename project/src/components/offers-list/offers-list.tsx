@@ -25,11 +25,12 @@ export function OfferList({offers, onOfferListItemHover}: OfferListType): JSX.El
       {offers.map((offer: OfferType) => (
         <Card
           key={offer.id}
+          id={offer.id}
           price={offer.price}
           img={offer.previewImage}
           type={offer.type}
           description={offer.description}
-          onMouseOver={() => onMouseOverHandler(offer.id !== undefined ? offer.id : -1)}
+          onMouseOver={() => onMouseOverHandler(offer.id)}
           onMouseLeave={onMouseLeave}
         />
       ))}
