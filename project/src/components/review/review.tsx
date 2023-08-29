@@ -1,28 +1,13 @@
 import { ReviewType } from '../../mocks/reviews';
+import { getRating } from '../../utils';
 
 type ReviewProps = {
   review: ReviewType;
 }
 
-const getRating = (rating: number) => {
-  switch(rating) {
-    case 1:
-      return {width: '20%'};
-    case 2:
-      return {width: '40%'};
-    case 3:
-      return {width: '60%'};
-    case 4:
-      return {width: '80%'};
-    case 5:
-      return {width: '100%'};
-  }
-};
-
 export default function Review({review}: ReviewProps): JSX.Element {
 
-  const dateString = review.date;
-  const dateObject = new Date(dateString);
+  const dateObject = new Date(review.date);
   const month = new Intl.DateTimeFormat('en-EN', { month: 'long' }).format(dateObject);
   const year = dateObject.getFullYear();
 
@@ -50,7 +35,7 @@ export default function Review({review}: ReviewProps): JSX.Element {
         <p className="reviews__text">
           {review.comment}
         </p>
-        <time className="reviews__time" dateTime="2019-04-24">
+        <time className="reviews__time">
           {month} {year}
         </time>
       </div>

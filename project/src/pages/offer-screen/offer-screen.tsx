@@ -8,6 +8,7 @@ import {useState} from 'react';
 import { getOfferOnPage, getOffersInNeighbourhood } from '../../utils';
 import Map from '../../components/map/map';
 import Card from '../../components/card/card';
+import { OfferType } from '../../mocks/offers';
 
 type OfferScreenProps = {
   reviews: ReviewType[];
@@ -17,7 +18,7 @@ export default function OfferScreen({reviews}: OfferScreenProps): JSX.Element {
   const [activeNeighbourhoodOfferId, setActiveNeighbourhoodOfferId] = useState(-1);
   const {id} = useParams();
 
-  const offer = getOfferOnPage(Number(id));
+  const offer: OfferType = getOfferOnPage(Number(id));
   const offersInNeighbourhood = getOffersInNeighbourhood(offer.id);
 
   const onMouseOverHandler = (neighbourhoodOfferId: number) => {
