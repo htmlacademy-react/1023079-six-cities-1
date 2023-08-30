@@ -8,12 +8,14 @@ import LoginScreen from '../../pages/login-screen/login-screen';
 import PrivateRoute from '../private-route/private-route';
 import { HelmetProvider } from 'react-helmet-async';
 import { OfferType } from '../../mocks/offers';
+import { ReviewType } from '../../mocks/reviews';
 
 type AppProps = {
   offers: OfferType[];
+  reviews: ReviewType[];
 };
 
-function App({ offers }: AppProps): JSX.Element {
+function App({ offers, reviews }: AppProps): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -29,7 +31,7 @@ function App({ offers }: AppProps): JSX.Element {
               }
             />
             <Route path={AppRoutes.Login} element={<LoginScreen />} />
-            <Route path={AppRoutes.Room} element={<OfferScreen />} />
+            <Route path={AppRoutes.Room} element={<OfferScreen reviews={reviews}/>} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

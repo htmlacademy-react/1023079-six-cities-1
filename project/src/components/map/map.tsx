@@ -56,7 +56,7 @@ export default function Map({ city, offers, selectedOfferId }: MapProps) {
         markersRef.current.push(marker);
       });
     }
-  }, [offers, selectedOfferId]);
+  }, [map, offers, selectedOfferId]);
 
   return <div ref={mapRef} style={{ height: '100%' }} />;
 }

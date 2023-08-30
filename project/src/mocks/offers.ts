@@ -2,7 +2,7 @@ import { MOCK_OFFERS_COUNT } from '../consts';
 import { LAT_LON_DATA } from '../consts';
 
 export type OfferType = {
-  id?: number;
+  id: number;
   bedrooms: number;
   city: {
     location: {
@@ -37,6 +37,7 @@ export type OfferType = {
 };
 
 const OFFER: OfferType = {
+  id: -1000,
   bedrooms: 3,
   city: {
     location: {
