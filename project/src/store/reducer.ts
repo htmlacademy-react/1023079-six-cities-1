@@ -52,8 +52,6 @@ export const reducer = createReducer(initalState, (builder) => {
       }
     })
     .addCase(toggleSorts, (state) => {
-      // eslint-disable-next-line no-console
-      console.log(state.isSortsOpen, !state.isSortsOpen);
       state.isSortsOpen = !state.isSortsOpen;
     });
 });
