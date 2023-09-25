@@ -64,3 +64,5 @@ export const LAT_LON_DATA = [
     lon: 4.939309666406198
   }
 ];
+
+export const CITIES_LIST = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];

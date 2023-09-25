@@ -8,7 +8,6 @@ type OfferListType = {
 }
 
 export function OfferList({offers, onOfferListItemHover}: OfferListType): JSX.Element {
-
   const setActiveCardId = useState(-1)[1];
 
   const onMouseOverHandler = (id: number) => {
