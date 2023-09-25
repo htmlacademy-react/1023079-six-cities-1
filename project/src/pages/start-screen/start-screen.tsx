@@ -7,7 +7,9 @@ import { AppRoutes } from '../../consts';
 import Map from '../../components/map/map';
 import { useState } from 'react';
 import { CitiesList } from '../../components/cities-list/cities-list';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import SortVarients from '../../components/sort-variants/sort-varients';
+import { toggleSorts } from '../../store/action';
 
 type StartScreenProps = {
   offers: OfferType[];
@@ -17,6 +19,9 @@ export default function StartScreen({ offers }: StartScreenProps): JSX.Element {
   const [selectedOfferId, setSelectedOfferId] = useState(-1);
   const offersForCurrentCity = useAppSelector((state) => state.offersForCurrentCity);
   const currentCity = useAppSelector((state) => state.cityName);
+  const isSortsOpen = useAppSelector((state) => state.isSortsOpen);
+
+  const dispatch = useAppDispatch();
 
   const onOfferListItemHover = (id: number) => {
     setSelectedOfferId(id);
@@ -74,29 +79,13 @@ export default function StartScreen({ offers }: StartScreenProps): JSX.Element {
               <b className="places__found">{offersForCurrentCity.length} places to stay in {currentCity}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
+                <span onClick={() => dispatch(toggleSorts())} className="places__sorting-type" tabIndex={0}>
                   Popular
                   <svg className="places__sorting-arrow" width="7" height="4">
                     <use xlinkHref="#icon-arrow-select"></use>
                   </svg>
                 </span>
-                <ul className="places__options places__options--custom places__options--opened">
-                  <li
-                    className="places__option places__option--active"
-                    tabIndex={0}
-                  >
-                    Popular
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                    Price: low to high
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                    Price: high to low
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                    Top rated first
-                  </li>
-                </ul>
+                {isSortsOpen && <SortVarients />}
               </form>
               <div className="cities__places-list places__list tabs__content">
                 <OfferList offers = {offersForCurrentCity} onOfferListItemHover = {onOfferListItemHover}/>

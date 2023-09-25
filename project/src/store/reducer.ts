@@ -1,17 +1,21 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, fillOffersList } from './action';
+import { changeCity, fillOffersList, changeSortType, toggleSorts } from './action';
 import { OFFERS, OfferType } from '../mocks/offers';
 
 type initialStateType = {
   cityName: string;
   allOffers: OfferType[];
   offersForCurrentCity: OfferType[];
+  sortType: string;
+  isSortsOpen: boolean;
 }
 
 const initalState: initialStateType = {
+  sortType: 'Popular',
   cityName: 'Paris',
   allOffers: OFFERS,
-  offersForCurrentCity: []
+  offersForCurrentCity: [],
+  isSortsOpen: true
 };
 
 export const reducer = createReducer(initalState, (builder) => {
@@ -21,5 +25,35 @@ export const reducer = createReducer(initalState, (builder) => {
     })
     .addCase(fillOffersList, (state) => {
       state.offersForCurrentCity = state.allOffers.filter((offer) => offer.city.name === state.cityName);
+    })
+    .addCase(changeSortType, (state, action) => {
+      state.sortType = action.payload;
+
+      switch(state.sortType) {
+        case 'LowToHigh':
+          state.offersForCurrentCity.sort((a, b) => a.price - b.price);
+          state.isSortsOpen = false;
+          break;
+
+        case 'HighToLow':
+          state.offersForCurrentCity.sort((a, b) => b.price - a.price);
+          state.isSortsOpen = false;
+          break;
+
+        case 'TopRating':
+          state.offersForCurrentCity.sort((a, b) => b.rating - a.rating);
+          state.isSortsOpen = false;
+          break;
+
+        case 'Popular':
+          state.offersForCurrentCity = state.allOffers.filter((offer) => offer.city.name === state.cityName);
+          state.isSortsOpen = false;
+          break;
+      }
+    })
+    .addCase(toggleSorts, (state) => {
+      // eslint-disable-next-line no-console
+      console.log(state.isSortsOpen, !state.isSortsOpen);
+      state.isSortsOpen = !state.isSortsOpen;
     });
 });

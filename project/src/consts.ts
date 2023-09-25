@@ -66,3 +66,5 @@ export const LAT_LON_DATA = [
 ];
 
 export const CITIES_LIST = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+
+export const SORT_VARIANTS = ['Popular', 'LowToHigh', 'HighToLow', 'TopRating'];
