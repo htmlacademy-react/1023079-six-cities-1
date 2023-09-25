@@ -7,3 +7,11 @@ export const changeCity = createAction('changeCity', (value: string) => (
 ));
 
 export const fillOffersList = createAction('fillOffersList');
+
+export const changeSortType = createAction('changeSortType', (value: string) => (
+  {
+    payload: value
+  }
+));
+
+export const toggleSorts = createAction('toggleSorts');
