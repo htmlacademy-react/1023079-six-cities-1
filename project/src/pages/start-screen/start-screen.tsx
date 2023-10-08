@@ -1,7 +1,6 @@
 import { OfferList } from '../../components/offers-list/offers-list';
 import Logo from '../../components/logo/logo';
 import { Helmet } from 'react-helmet-async';
-import { OfferType } from '../../mocks/offers';
 import { Link } from 'react-router-dom';
 import { AppRoutes } from '../../consts';
 import Map from '../../components/map/map';
@@ -11,17 +10,14 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import SortVarients from '../../components/sort-variants/sort-varients';
 import { toggleSorts } from '../../store/action';
 
-type StartScreenProps = {
-  offers: OfferType[];
-};
-
-export default function StartScreen({ offers }: StartScreenProps): JSX.Element {
-  const [selectedOfferId, setSelectedOfferId] = useState(-1);
-  const offersForCurrentCity = useAppSelector((state) => state.offersForCurrentCity);
-  const currentCity = useAppSelector((state) => state.cityName);
-  const isSortsOpen = useAppSelector((state) => state.isSortsOpen);
-
+export default function StartScreen(): JSX.Element {
   const dispatch = useAppDispatch();
+
+  const offers = useAppSelector((state) => state.allOffers);
+  const currentCity = useAppSelector((state) => state.cityName);
+  const offersForCurrentCity = useAppSelector((state) => state.offersForCurrentCity);
+  const [selectedOfferId, setSelectedOfferId] = useState(-1);
+  const isSortsOpen = useAppSelector((state) => state.isSortsOpen);
 
   const onOfferListItemHover = (id: number) => {
     setSelectedOfferId(id);
