@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { changeCity, fillOffersList, changeSortType, toggleSorts } from './action';
-import { OFFERS, OfferType } from '../mocks/offers';
+import { OfferType } from '../mocks/offers';
 
 type initialStateType = {
   cityName: string;
@@ -13,7 +13,7 @@ type initialStateType = {
 const initalState: initialStateType = {
   sortType: 'Popular',
   cityName: 'Paris',
-  allOffers: OFFERS,
+  allOffers: [],
   offersForCurrentCity: [],
   isSortsOpen: true
 };
