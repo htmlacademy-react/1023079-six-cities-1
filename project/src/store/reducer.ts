@@ -26,8 +26,6 @@ export const reducer = createReducer(initalState, (builder) => {
       state.cityName = action.payload;
     })
     .addCase(fillOffersList, (state) => {
-      // eslint-disable-next-line no-console
-      console.log(state.cityName);
       state.offersForCurrentCity = state.allOffers.filter((offer) => offer.city.name === state.cityName);
     })
     .addCase(changeSortType, (state, action) => {
