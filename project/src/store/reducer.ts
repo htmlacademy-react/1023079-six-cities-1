@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, fillOffersList, changeSortType, toggleSorts, loadOffers, changeIsOffersLoadingStatus } from './action';
+import { changeCity, fillOffersList, changeSortType, toggleSorts, setOffers, changeIsOffersLoadingStatus } from './action';
 import { OfferType } from '../mocks/offers';
 
 export type InitialStateType = {
@@ -26,6 +26,8 @@ export const reducer = createReducer(initalState, (builder) => {
       state.cityName = action.payload;
     })
     .addCase(fillOffersList, (state) => {
+      // eslint-disable-next-line no-console
+      console.log(state.cityName);
       state.offersForCurrentCity = state.allOffers.filter((offer) => offer.city.name === state.cityName);
     })
     .addCase(changeSortType, (state, action) => {
@@ -56,7 +58,7 @@ export const reducer = createReducer(initalState, (builder) => {
     .addCase(toggleSorts, (state) => {
       state.isSortsOpen = !state.isSortsOpen;
     })
-    .addCase(loadOffers, (state, action) => {
+    .addCase(setOffers, (state, action) => {
       state.allOffers = action.payload;
     })
     .addCase(changeIsOffersLoadingStatus, (state, action) => {

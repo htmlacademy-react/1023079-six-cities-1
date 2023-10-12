@@ -17,6 +17,6 @@ export const changeSortType = createAction('changeSortType', (value: string) => 
 
 export const toggleSorts = createAction('toggleSorts');
 
-export const loadOffers = createAction<OfferType[]>('loadOffers');
+export const setOffers = createAction<OfferType[]>('setOffers');
 
 export const changeIsOffersLoadingStatus = createAction<boolean>('changeIsOffersLoadingStatus');
