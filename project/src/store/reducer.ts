@@ -1,21 +1,23 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, fillOffersList, changeSortType, toggleSorts } from './action';
-import { OFFERS, OfferType } from '../mocks/offers';
+import { changeCity, fillOffersList, changeSortType, toggleSorts, setOffers, changeIsOffersLoadingStatus } from './action';
+import { OfferType } from '../mocks/offers';
 
-type initialStateType = {
+export type InitialStateType = {
   cityName: string;
   allOffers: OfferType[];
   offersForCurrentCity: OfferType[];
   sortType: string;
   isSortsOpen: boolean;
+  isOffersLoading: boolean;
 }
 
-const initalState: initialStateType = {
+const initalState: InitialStateType = {
   sortType: 'Popular',
   cityName: 'Paris',
-  allOffers: OFFERS,
+  allOffers: [],
   offersForCurrentCity: [],
-  isSortsOpen: true
+  isSortsOpen: false,
+  isOffersLoading: true
 };
 
 export const reducer = createReducer(initalState, (builder) => {
@@ -53,5 +55,11 @@ export const reducer = createReducer(initalState, (builder) => {
     })
     .addCase(toggleSorts, (state) => {
       state.isSortsOpen = !state.isSortsOpen;
+    })
+    .addCase(setOffers, (state, action) => {
+      state.allOffers = action.payload;
+    })
+    .addCase(changeIsOffersLoadingStatus, (state, action) => {
+      state.isOffersLoading = action.payload;
     });
 });

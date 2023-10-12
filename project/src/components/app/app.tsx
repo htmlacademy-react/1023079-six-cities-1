@@ -9,6 +9,8 @@ import PrivateRoute from '../private-route/private-route';
 import { HelmetProvider } from 'react-helmet-async';
 import { OfferType } from '../../mocks/offers';
 import { ReviewType } from '../../mocks/reviews';
+import { useAppSelector } from '../../hooks';
+import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
 type AppProps = {
   offers: OfferType[];
@@ -16,12 +18,20 @@ type AppProps = {
 };
 
 function App({ offers, reviews }: AppProps): JSX.Element {
+  const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
+
+  if(isOffersLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
+
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route path={AppRoutes.Main}>
-            <Route index element={<StartScreen offers={offers} />} />
+            <Route index element={<StartScreen/>} />
             <Route
               path={AppRoutes.Favorites}
               element={
