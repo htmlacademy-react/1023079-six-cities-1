@@ -19,6 +19,14 @@ export default function Card({
   onMouseOver,
   onMouseLeave,
 }: CardProps): JSX.Element {
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   return (
     <article
       className="cities__card place-card"
@@ -57,7 +65,7 @@ export default function Card({
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`/offer/${id}`}>{description}</Link>
+          <Link onClick={scrollToTop} to={`/offer/${id}`}>{description}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>

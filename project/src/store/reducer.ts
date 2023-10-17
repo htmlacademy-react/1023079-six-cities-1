@@ -9,9 +9,11 @@ export type InitialStateType = {
   sortType: string;
   isSortsOpen: boolean;
   isOffersLoading: boolean;
+  authorizationStatus: string;
 }
 
 const initalState: InitialStateType = {
+  authorizationStatus: 'noAuth',
   sortType: 'Popular',
   cityName: 'Paris',
   allOffers: [],
