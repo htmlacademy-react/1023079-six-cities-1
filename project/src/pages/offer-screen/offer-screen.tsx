@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { CommentForm } from '../../components/comment-form/comment-form';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import { ReviewType } from '../../mocks/reviews';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import {
   getOfferOnPage,
@@ -14,6 +14,7 @@ import Map from '../../components/map/map';
 import Card from '../../components/card/card';
 import { OfferType } from '../../mocks/offers';
 import { useAppSelector } from '../../hooks';
+import { AppRoutes, AuthorizationsStatus } from '../../consts';
 
 type OfferScreenProps = {
   reviews: ReviewType[];
@@ -22,6 +23,7 @@ type OfferScreenProps = {
 export default function OfferScreen({
   reviews,
 }: OfferScreenProps): JSX.Element {
+  const status = useAppSelector((state) => state.authorizationStatus);
   const offersInThisCity = useAppSelector(
     (state) => state.offersForCurrentCity
   );
@@ -30,8 +32,6 @@ export default function OfferScreen({
   const { id } = useParams();
 
   const offer: OfferType = getOfferOnPage(Number(id));
-  // eslint-disable-next-line no-console
-  console.log(offer);
   const offersInNeighbourhood = getOffersInNeighbourhood(
     offersInThisCity,
     offer.id
@@ -53,11 +53,7 @@ export default function OfferScreen({
   const getImgsElement = () =>
     offer.images.map((img) => (
       <div key={`${img} key`} className="property__image-wrapper">
-        <img
-          className="property__image"
-          src={img}
-          alt="Photo studio"
-        />
+        <img className="property__image" src={img} alt="Photo studio" />
       </div>
     ));
 
@@ -75,21 +71,33 @@ export default function OfferScreen({
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <a
-                    className="header__nav-link header__nav-link--profile"
-                    href="#"
-                  >
-                    <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                    <span className="header__user-name user__name">
-                      Oliver.conner@gmail.com
-                    </span>
-                    <span className="header__favorite-count">3</span>
-                  </a>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
-                    <span className="header__signout">Sign out</span>
-                  </a>
+                  {status === AuthorizationsStatus.Auth ? (
+                    <>
+                      <Link
+                        className="header__nav-link header__nav-link--profile"
+                        to={AppRoutes.Favorites}
+                      >
+                        <div className="header__avatar-wrapper user__avatar-wrapper"></div>
+                        <span className="header__user-name user__name">
+                          Oliver.conner@gmail.com
+                        </span>
+                        <span className="header__favorite-count">3</span>
+                      </Link>
+                      <a className="header__nav-link" href="#">
+                        <span className="header__signout">Sign out</span>
+                      </a>
+                    </>
+                  ) : (
+                    <li className="header__nav-item">
+                      <Link
+                        className="header__nav-link header__nav-link--profile"
+                        to={AppRoutes.Login}
+                      >
+                        <div className="header__avatar-wrapper user__avatar-wrapper"></div>
+                        <span className="header__login">Sign in</span>
+                      </Link>
+                    </li>
+                  )}
                 </li>
               </ul>
             </nav>
@@ -100,9 +108,7 @@ export default function OfferScreen({
       <main className="page__main page__main--property">
         <section className="property">
           <div className="property__gallery-container container">
-            <div className="property__gallery">
-              {getImgsElement()}
-            </div>
+            <div className="property__gallery">{getImgsElement()}</div>
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
@@ -173,9 +179,7 @@ export default function OfferScreen({
                   )}
                 </div>
                 <div className="property__description">
-                  <p className="property__text">
-                    {offer.description}
-                  </p>
+                  <p className="property__text">{offer.description}</p>
                 </div>
               </div>
               <section className="property__reviews reviews">

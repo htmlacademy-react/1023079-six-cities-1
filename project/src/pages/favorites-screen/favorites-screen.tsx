@@ -1,24 +1,16 @@
 import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
 import React from 'react';
-import { OfferType } from '../../mocks/offers';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { logoutAction } from '../../store/action';
 
-type FavoriteScreenProps = {
-  offers: OfferType[];
-};
+function CurrentCityOffersList(): JSX.Element {
 
-type CurrentCityOffersListType = {
-  cityName: string;
-  offers: OfferType[];
-}
-
-function CurrentCityOffersList({cityName, offers}: CurrentCityOffersListType): JSX.Element {
-
-  const relevantOffers: OfferType[] = offers.filter((offer) => offer.city.name === cityName);
+  const offers = useAppSelector((state) => state.offersForCurrentCity);
 
   return (
     <React.Fragment>
-      {relevantOffers.map((offer) => (
+      {offers.map((offer) => (
         <article className="favorites__card place-card" key={offer.id}>
           <div className="place-card__mark">
             {offer.isPremium && <span>Premium</span>}
@@ -77,8 +69,10 @@ function CurrentCityOffersList({cityName, offers}: CurrentCityOffersListType): J
   );
 }
 
-export default function FavoritesScreen({offers}: FavoriteScreenProps): JSX.Element {
+export default function FavoritesScreen(): JSX.Element {
 
+  const dispatch = useAppDispatch();
+  const offers = useAppSelector((state) => state.allOffers);
   const offersCityNames: string[] = offers.map((offer) => offer.city.name);
   const uniqueCityNames: string[] = Array.from(new Set(offersCityNames));
 
@@ -109,7 +103,7 @@ export default function FavoritesScreen({offers}: FavoriteScreenProps): JSX.Elem
                 </li>
                 <li className="header__nav-item">
                   <a className="header__nav-link" href="#">
-                    <span className="header__signout">Sign out</span>
+                    <span onClick={() => dispatch(logoutAction())} className="header__signout">Sign out</span>
                   </a>
                 </li>
               </ul>
@@ -133,7 +127,7 @@ export default function FavoritesScreen({offers}: FavoriteScreenProps): JSX.Elem
                     </div>
                   </div>
                   <div className="favorites__places">
-                    <CurrentCityOffersList cityName={cityName} offers={offers} />
+                    <CurrentCityOffersList />
                   </div>
                 </li>
               ))}

@@ -20,3 +20,11 @@ export const toggleSorts = createAction('toggleSorts');
 export const setOffers = createAction<OfferType[]>('setOffers');
 
 export const changeIsOffersLoadingStatus = createAction<boolean>('changeIsOffersLoadingStatus');
+
+export const requireAuthorization = createAction('requireAuthorization', (value: string) => (
+  {
+    payload: value
+  }
+));
+
+export const logoutAction = createAction('logoutAction');

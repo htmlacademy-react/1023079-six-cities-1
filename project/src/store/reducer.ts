@@ -1,6 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, fillOffersList, changeSortType, toggleSorts, setOffers, changeIsOffersLoadingStatus } from './action';
+import { changeCity, fillOffersList, changeSortType, toggleSorts, setOffers, changeIsOffersLoadingStatus, requireAuthorization, logoutAction } from './action';
 import { OfferType } from '../mocks/offers';
+import { AuthorizationsStatus } from '../consts';
+import { dropToken } from '../token';
 
 export type InitialStateType = {
   cityName: string;
@@ -13,7 +15,7 @@ export type InitialStateType = {
 }
 
 const initalState: InitialStateType = {
-  authorizationStatus: 'noAuth',
+  authorizationStatus: AuthorizationsStatus.Unknown,
   sortType: 'Popular',
   cityName: 'Paris',
   allOffers: [],
@@ -63,5 +65,12 @@ export const reducer = createReducer(initalState, (builder) => {
     })
     .addCase(changeIsOffersLoadingStatus, (state, action) => {
       state.isOffersLoading = action.payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(logoutAction, (state) => {
+      state.authorizationStatus = AuthorizationsStatus.NoAuth;
+      dropToken();
     });
 });
