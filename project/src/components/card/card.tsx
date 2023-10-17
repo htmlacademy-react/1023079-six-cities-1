@@ -8,22 +8,31 @@ type CardProps = {
   description: string;
   onMouseOver?: () => void;
   onMouseLeave?: () => void;
-}
+};
 
-export default function Card({price, img, type, description, id, onMouseOver, onMouseLeave}: CardProps): JSX.Element {
-
+export default function Card({
+  price,
+  img,
+  type,
+  description,
+  id,
+  onMouseOver,
+  onMouseLeave,
+}: CardProps): JSX.Element {
   return (
-    <article className="cities__card place-card" onMouseOver={onMouseOver} onMouseLeave={onMouseLeave}>
+    <article
+      className="cities__card place-card"
+      onMouseOver={onMouseOver}
+      onMouseLeave={onMouseLeave}
+    >
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
-          <img
-            className="place-card__image"
-            src={img}
-            width="260"
-            height="200"
-            alt="Place image"
-          />
-        </a>
+        <img
+          className="place-card__image"
+          src={img}
+          width="260"
+          height="200"
+          alt="Place image"
+        />
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">

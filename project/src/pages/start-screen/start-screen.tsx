@@ -13,7 +13,6 @@ import { toggleSorts } from '../../store/action';
 export default function StartScreen(): JSX.Element {
   const dispatch = useAppDispatch();
 
-  const offers = useAppSelector((state) => state.allOffers);
   const currentCity = useAppSelector((state) => state.cityName);
   const offersForCurrentCity = useAppSelector((state) => state.offersForCurrentCity);
   const [selectedOfferId, setSelectedOfferId] = useState(-1);
@@ -89,7 +88,7 @@ export default function StartScreen(): JSX.Element {
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map city={offers[0].city} offers={offersForCurrentCity} selectedOfferId={selectedOfferId}/>
+                <Map city={offersForCurrentCity[0].city} offers={offersForCurrentCity} selectedOfferId={selectedOfferId}/>
               </section>
             </div>
           </div>
