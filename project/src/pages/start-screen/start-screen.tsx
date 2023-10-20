@@ -47,7 +47,7 @@ export default function StartScreen(): JSX.Element {
                       >
                         <div className="header__avatar-wrapper user__avatar-wrapper"></div>
                         <span className="header__user-name user__name">
-                          Oliver.conner@gmail.com
+                        Oliver.conner@gmail.com
                         </span>
                         <span className="header__favorite-count">3</span>
                       </Link>
@@ -112,7 +112,6 @@ export default function StartScreen(): JSX.Element {
               <section className="cities__map map">
                 <Map
                   city={offersForCurrentCity[0].city}
-                  offers={offersForCurrentCity}
                   selectedOfferId={selectedOfferId}
                 />
               </section>

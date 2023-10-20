@@ -26,7 +26,7 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatchType;
   extra: AxiosInstance;
 }>(
-  'user/checkAuth',
+  'checkAuthAction',
   async (_arg, {dispatch, extra: api}) => {
     try {
       await api.get('/login');
@@ -41,7 +41,7 @@ export const loginAction = createAsyncThunk<void, AuthData, {
   dispatch: AppDispatchType;
   extra: AxiosInstance;
 }>(
-  'user/login',
+  'loginAction',
   async ({login: email, password}, {dispatch, extra: api}) => {
     const {data: {token}} = await api.post<UserData>('/login', {email, password});
     saveToken(token);

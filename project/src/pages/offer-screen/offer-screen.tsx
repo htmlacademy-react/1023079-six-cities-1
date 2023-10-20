@@ -195,7 +195,6 @@ export default function OfferScreen({
           <section className="property__map map">
             <Map
               city={offer.city}
-              offers={offersInNeighbourhood}
               selectedOfferId={activeNeighbourhoodOfferId}
             />
           </section>
