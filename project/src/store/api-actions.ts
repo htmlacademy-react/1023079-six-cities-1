@@ -42,8 +42,9 @@ export const loginAction = createAsyncThunk<void, AuthData, {
   extra: AxiosInstance;
 }>(
   'loginAction',
-  async ({login: email, password}, {dispatch, extra: api}) => {
-    const {data: {token}} = await api.post<UserData>('/login', {email, password});
+  async ({login, password}, {dispatch, extra: api}) => {
+    const {data: {token, email}} = await api.post<UserData>('/login', {email: login, password: password});
+    localStorage.setItem('user', email);
     saveToken(token);
     dispatch(requireAuthorization(AuthorizationsStatus.Auth));
   },

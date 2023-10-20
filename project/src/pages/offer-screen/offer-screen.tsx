@@ -79,7 +79,7 @@ export default function OfferScreen({
                       >
                         <div className="header__avatar-wrapper user__avatar-wrapper"></div>
                         <span className="header__user-name user__name">
-                          Oliver.conner@gmail.com
+                          {localStorage.getItem('user')}
                         </span>
                         <span className="header__favorite-count">3</span>
                       </Link>
