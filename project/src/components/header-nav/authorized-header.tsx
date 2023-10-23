@@ -5,6 +5,9 @@ import { useAppDispatch } from '../../hooks';
 
 export default function AuthorizedHeader(): JSX.Element {
   const dispatch = useAppDispatch();
+  const logoutHandler = () => {
+    dispatch(logoutAction());
+  };
 
   return (
     <>
@@ -20,7 +23,7 @@ export default function AuthorizedHeader(): JSX.Element {
       </Link>
       <a className="header__nav-link" href="#">
         <span
-          onClick={() => void dispatch(logoutAction())}
+          onClick={logoutHandler}
           className="header__signout"
         >
           Sign out
