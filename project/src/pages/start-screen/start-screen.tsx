@@ -1,19 +1,17 @@
 import { OfferList } from '../../components/offers-list/offers-list';
 import Logo from '../../components/logo/logo';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
-import { AppRoutes, AuthorizationsStatus } from '../../consts';
 import Map from '../../components/map/map';
 import { useState } from 'react';
 import { CitiesList } from '../../components/cities-list/cities-list';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import SortVarients from '../../components/sort-variants/sort-varients';
-import { logoutAction, toggleSorts } from '../../store/action';
+import { toggleSorts } from '../../store/action';
+import HeaderNav from '../../components/header-nav/header-nav';
 
 export default function StartScreen(): JSX.Element {
   const dispatch = useAppDispatch();
 
-  const status = useAppSelector((state) => state.authorizationStatus);
   const currentCity = useAppSelector((state) => state.cityName);
   const offersForCurrentCity = useAppSelector(
     (state) => state.offersForCurrentCity
@@ -38,33 +36,7 @@ export default function StartScreen(): JSX.Element {
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  {status === AuthorizationsStatus.Auth ? (
-                    <>
-                      <Link
-                        className="header__nav-link header__nav-link--profile"
-                        to={AppRoutes.Favorites}
-                      >
-                        <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                        <span className="header__user-name user__name">
-                          {localStorage.getItem('user')}
-                        </span>
-                        <span className="header__favorite-count">3</span>
-                      </Link>
-                      <a className="header__nav-link" href="#">
-                        <span onClick={()=> dispatch(logoutAction())} className="header__signout">Sign out</span>
-                      </a>
-                    </>
-                  ) : (
-                    <Link
-                      className="header__nav-link header__nav-link--profile"
-                      to={AppRoutes.Login}
-                    >
-                      <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                      <span className="header__login">Sign in</span>
-                    </Link>
-                  )}
-                </li>
+                <HeaderNav />
               </ul>
             </nav>
           </div>

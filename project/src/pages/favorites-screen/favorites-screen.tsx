@@ -1,8 +1,8 @@
 import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
 import React from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { logoutAction } from '../../store/action';
+import { useAppSelector } from '../../hooks';
+import HeaderNav from '../../components/header-nav/header-nav';
 
 function CurrentCityOffersList(): JSX.Element {
 
@@ -70,8 +70,6 @@ function CurrentCityOffersList(): JSX.Element {
 }
 
 export default function FavoritesScreen(): JSX.Element {
-
-  const dispatch = useAppDispatch();
   const offers = useAppSelector((state) => state.allOffers);
   const offersCityNames: string[] = offers.map((offer) => offer.city.name);
   const uniqueCityNames: string[] = Array.from(new Set(offersCityNames));
@@ -89,23 +87,7 @@ export default function FavoritesScreen(): JSX.Element {
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a
-                    className="header__nav-link header__nav-link--profile"
-                    href="#"
-                  >
-                    <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                    <span className="header__user-name user__name">
-                      {localStorage.getItem('user')}
-                    </span>
-                    <span className="header__favorite-count">3</span>
-                  </a>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="">
-                    <span onClick={() => dispatch(logoutAction())} className="header__signout">Sign out</span>
-                  </a>
-                </li>
+                <HeaderNav />
               </ul>
             </nav>
           </div>
