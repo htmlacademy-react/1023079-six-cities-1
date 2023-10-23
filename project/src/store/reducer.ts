@@ -1,8 +1,9 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, fillOffersList, changeSortType, toggleSorts, setOffers, changeIsOffersLoadingStatus, requireAuthorization, logoutAction } from './action';
+import { changeCity, fillOffersList, changeSortType, toggleSorts, setOffers, changeIsOffersLoadingStatus, requireAuthorization, logoutAction, setError } from './action';
 import { OfferType } from '../mocks/offers';
 import { AuthorizationsStatus } from '../consts';
 import { dropToken } from '../token';
+import { AxiosError } from 'axios';
 
 export type InitialStateType = {
   cityName: string;
@@ -12,6 +13,7 @@ export type InitialStateType = {
   isSortsOpen: boolean;
   isOffersLoading: boolean;
   authorizationStatus: string;
+  error: AxiosError | null;
 }
 
 const initalState: InitialStateType = {
@@ -21,7 +23,8 @@ const initalState: InitialStateType = {
   allOffers: [],
   offersForCurrentCity: [],
   isSortsOpen: false,
-  isOffersLoading: true
+  isOffersLoading: true,
+  error: null
 };
 
 export const reducer = createReducer(initalState, (builder) => {
@@ -72,5 +75,8 @@ export const reducer = createReducer(initalState, (builder) => {
     .addCase(logoutAction, (state) => {
       state.authorizationStatus = AuthorizationsStatus.NoAuth;
       dropToken();
+    })
+    .addCase(setError, (state, action) => {
+      state.error = action.payload;
     });
 });

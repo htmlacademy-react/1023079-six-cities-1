@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { OfferType } from '../mocks/offers';
+import { AxiosError } from 'axios';
 
 export const changeCity = createAction('changeCity', (value: string) => ({
   payload: value,
@@ -30,3 +31,7 @@ export const requireAuthorization = createAction(
 );
 
 export const logoutAction = createAction('logoutAction');
+
+export const setError = createAction('setError', (value: AxiosError) => ({
+  payload: value
+}));
