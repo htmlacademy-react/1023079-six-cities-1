@@ -20,7 +20,7 @@ export default function AuthorizedHeader(): JSX.Element {
       </Link>
       <a className="header__nav-link" href="#">
         <span
-          onClick={() => dispatch(logoutAction())}
+          onClick={() => void dispatch(logoutAction())}
           className="header__signout"
         >
           Sign out
