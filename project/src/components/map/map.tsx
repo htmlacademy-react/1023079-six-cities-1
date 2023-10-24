@@ -37,26 +37,30 @@ export default function Map({ city, selectedOfferId }: MapProps) {
 
   useEffect(() => {
     if (map) {
-      const cityForCenter = offers[0].city;
       markersRef.current.forEach((marker) => marker.remove());
-      map.setView([cityForCenter.location.latitude, cityForCenter.location.longitude]);
-      offers.forEach((offer) => {
-        const marker = leaflet
-          .marker(
-            {
-              lat: offer.location.latitude,
-              lng: offer.location.longitude,
-            },
-            {
-              icon:
-                offer.id === selectedOfferId
-                  ? currentCustomIcon
-                  : defaultCustomIcon,
-            }
-          )
-          .addTo(map);
-        markersRef.current.push(marker);
-      });
+      const cityForCenter = offers.find((offer) => 'location' in offer);
+      if(cityForCenter) {
+        map.setView([cityForCenter.location.latitude, cityForCenter.location.longitude]);
+      }
+      if(offers.length) {
+        offers.forEach((offer) => {
+          const marker = leaflet
+            .marker(
+              {
+                lat: offer.location.latitude,
+                lng: offer.location.longitude,
+              },
+              {
+                icon:
+                  offer.id === selectedOfferId
+                    ? currentCustomIcon
+                    : defaultCustomIcon,
+              }
+            )
+            .addTo(map);
+          markersRef.current.push(marker);
+        });
+      }
     }
   }, [map, offers, selectedOfferId]);
 

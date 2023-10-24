@@ -5,6 +5,7 @@ import { useAppDispatch } from '../../hooks';
 
 export default function AuthorizedHeader(): JSX.Element {
   const dispatch = useAppDispatch();
+  const user = localStorage.getItem('user') ? localStorage.getItem('user') : 'User';
   const logoutHandler = () => {
     dispatch(logoutAction());
   };
@@ -17,7 +18,7 @@ export default function AuthorizedHeader(): JSX.Element {
       >
         <div className="header__avatar-wrapper user__avatar-wrapper"></div>
         <span className="header__user-name user__name">
-          {localStorage.getItem('user')}
+          {user}
         </span>
         <span className="header__favorite-count">3</span>
       </Link>
