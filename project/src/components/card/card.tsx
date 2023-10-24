@@ -8,22 +8,39 @@ type CardProps = {
   description: string;
   onMouseOver?: () => void;
   onMouseLeave?: () => void;
-}
+};
 
-export default function Card({price, img, type, description, id, onMouseOver, onMouseLeave}: CardProps): JSX.Element {
+export default function Card({
+  price,
+  img,
+  type,
+  description,
+  id,
+  onMouseOver,
+  onMouseLeave,
+}: CardProps): JSX.Element {
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   return (
-    <article className="cities__card place-card" onMouseOver={onMouseOver} onMouseLeave={onMouseLeave}>
+    <article
+      className="cities__card place-card"
+      onMouseOver={onMouseOver}
+      onMouseLeave={onMouseLeave}
+    >
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
-          <img
-            className="place-card__image"
-            src={img}
-            width="260"
-            height="200"
-            alt="Place image"
-          />
-        </a>
+        <img
+          className="place-card__image"
+          src={img}
+          width="260"
+          height="200"
+          alt="Place image"
+        />
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -48,7 +65,7 @@ export default function Card({price, img, type, description, id, onMouseOver, on
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`/offer/${id}`}>{description}</Link>
+          <Link onClick={scrollToTop} to={`/offer/${id}`}>{description}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>

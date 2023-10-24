@@ -1,6 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, fillOffersList, changeSortType, toggleSorts, setOffers, changeIsOffersLoadingStatus } from './action';
+import { changeCity, fillOffersList, changeSortType, toggleSorts, setOffers, changeIsOffersLoadingStatus, requireAuthorization, setError, setStatusNoAuthAction } from './action';
 import { OfferType } from '../mocks/offers';
+import { AuthorizationsStatus } from '../consts';
+import { AxiosError } from 'axios';
 
 export type InitialStateType = {
   cityName: string;
@@ -9,15 +11,19 @@ export type InitialStateType = {
   sortType: string;
   isSortsOpen: boolean;
   isOffersLoading: boolean;
+  authorizationStatus: string;
+  error: AxiosError | null;
 }
 
 const initalState: InitialStateType = {
+  authorizationStatus: AuthorizationsStatus.Unknown,
   sortType: 'Popular',
   cityName: 'Paris',
   allOffers: [],
   offersForCurrentCity: [],
   isSortsOpen: false,
-  isOffersLoading: true
+  isOffersLoading: true,
+  error: null
 };
 
 export const reducer = createReducer(initalState, (builder) => {
@@ -61,5 +67,14 @@ export const reducer = createReducer(initalState, (builder) => {
     })
     .addCase(changeIsOffersLoadingStatus, (state, action) => {
       state.isOffersLoading = action.payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(setStatusNoAuthAction, (state) => {
+      state.authorizationStatus = AuthorizationsStatus.NoAuth;
+    })
+    .addCase(setError, (state, action) => {
+      state.error = action.payload;
     });
 });

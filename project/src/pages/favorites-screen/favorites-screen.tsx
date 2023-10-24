@@ -1,24 +1,16 @@
 import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
 import React from 'react';
-import { OfferType } from '../../mocks/offers';
+import { useAppSelector } from '../../hooks';
+import HeaderNav from '../../components/header-nav/header-nav';
 
-type FavoriteScreenProps = {
-  offers: OfferType[];
-};
+function CurrentCityOffersList(): JSX.Element {
 
-type CurrentCityOffersListType = {
-  cityName: string;
-  offers: OfferType[];
-}
-
-function CurrentCityOffersList({cityName, offers}: CurrentCityOffersListType): JSX.Element {
-
-  const relevantOffers: OfferType[] = offers.filter((offer) => offer.city.name === cityName);
+  const offers = useAppSelector((state) => state.offersForCurrentCity);
 
   return (
     <React.Fragment>
-      {relevantOffers.map((offer) => (
+      {offers.map((offer) => (
         <article className="favorites__card place-card" key={offer.id}>
           <div className="place-card__mark">
             {offer.isPremium && <span>Premium</span>}
@@ -77,8 +69,8 @@ function CurrentCityOffersList({cityName, offers}: CurrentCityOffersListType): J
   );
 }
 
-export default function FavoritesScreen({offers}: FavoriteScreenProps): JSX.Element {
-
+export default function FavoritesScreen(): JSX.Element {
+  const offers = useAppSelector((state) => state.allOffers);
   const offersCityNames: string[] = offers.map((offer) => offer.city.name);
   const uniqueCityNames: string[] = Array.from(new Set(offersCityNames));
 
@@ -95,23 +87,7 @@ export default function FavoritesScreen({offers}: FavoriteScreenProps): JSX.Elem
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a
-                    className="header__nav-link header__nav-link--profile"
-                    href="#"
-                  >
-                    <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                    <span className="header__user-name user__name">
-                      Oliver.conner@gmail.com
-                    </span>
-                    <span className="header__favorite-count">3</span>
-                  </a>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
+                <HeaderNav />
               </ul>
             </nav>
           </div>
@@ -133,7 +109,7 @@ export default function FavoritesScreen({offers}: FavoriteScreenProps): JSX.Elem
                     </div>
                   </div>
                   <div className="favorites__places">
-                    <CurrentCityOffersList cityName={cityName} offers={offers} />
+                    <CurrentCityOffersList />
                   </div>
                 </li>
               ))}
