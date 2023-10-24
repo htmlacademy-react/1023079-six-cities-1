@@ -5,7 +5,7 @@ import { useAppDispatch } from '../../hooks';
 
 export default function AuthorizedHeader(): JSX.Element {
   const dispatch = useAppDispatch();
-  const user = localStorage.getItem('user') ? localStorage.getItem('user') : 'User';
+  const user = localStorage.getItem('user') || 'User';
   const logoutHandler = () => {
     dispatch(logoutAction());
   };
