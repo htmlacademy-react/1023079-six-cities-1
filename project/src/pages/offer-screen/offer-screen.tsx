@@ -21,6 +21,12 @@ type OfferScreenProps = {
   reviews: ReviewType[];
 };
 
+type StateType = {
+  offer: OfferType | undefined;
+  reviews: ReviewType[] | undefined;
+  offersInNeighbourhood: OfferType[] | undefined;
+}
+
 export default function OfferScreen({
   reviews,
 }: OfferScreenProps): JSX.Element {
@@ -31,14 +37,18 @@ export default function OfferScreen({
     useState(-1);
   const { id } = useParams();
   const navigate = useNavigate();
-  const [offer, setOffer] = useState<OfferType | undefined>(undefined);
+  const [offerData, setOfferData] = useState<StateType>({
+    offer: undefined,
+    reviews: [],
+    offersInNeighbourhood: []
+  });
 
   useEffect(() => {
     if(id) {
       const fetchOffer = async () => {
         try {
           const {data} = await axios.get<OfferType>(`https://12.react.pages.academy/six-cities/hotels/${id}`);
-          setOffer(data);
+          setOfferData({...offerData, offer: data});
         } catch (error) {
           navigate(`${AppRoutes.Main}*`);
         }
@@ -47,6 +57,8 @@ export default function OfferScreen({
       fetchOffer();
     }
   }, [id]);
+
+  const {offer} = offerData;
 
   if(offer) {
     const offersInNeighbourhood = getOffersInNeighbourhood(
