@@ -13,19 +13,13 @@ import HeaderNav from '../../components/header-nav/header-nav';
 import axios from 'axios';
 import { AppRoutes } from '../../consts';
 
-type OfferScreenProps = {
-  reviews: ReviewType[];
-};
-
 type StateType = {
   offer: OfferType | undefined;
   reviews: ReviewType[] | undefined;
   offersInNeighbourhood: OfferType[] | undefined;
 }
 
-export default function OfferScreen({
-  reviews,
-}: OfferScreenProps): JSX.Element {
+export default function OfferScreen(): JSX.Element {
   const { id } = useParams();
   const navigate = useNavigate();
   const [offerData, setOfferData] = useState<StateType>({
@@ -50,12 +44,18 @@ export default function OfferScreen({
         setOfferData((prevData) => ({...prevData, offersInNeighbourhood: data}));
       };
 
+      const fetchReviews = async () => {
+        const {data} = await axios.get<ReviewType[]>(`https://12.react.pages.academy/six-cities/comments/${id}`);
+        setOfferData((prevData) => ({...prevData, reviews: data}));
+      };
+
       fetchOffer();
       fetchNeighbourhood();
+      fetchReviews();
     }
   }, [id]);
 
-  const {offer, offersInNeighbourhood} = offerData;
+  const {offer, offersInNeighbourhood, reviews} = offerData;
 
   if(offer) {
     const getGoodsElement = () =>
@@ -172,7 +172,7 @@ export default function OfferScreen({
                 <section className="property__reviews reviews">
                   <h2 className="reviews__title">
                     Reviews &middot;{' '}
-                    <span className="reviews__amount">{reviews.length}</span>
+                    <span className="reviews__amount">{reviews?.length ?? 0}</span>
                   </h2>
                   <ReviewsList reviews={reviews} />
                   <CommentForm />
@@ -194,7 +194,7 @@ export default function OfferScreen({
               Other places in the neighbourhood
             </h2>
             <div className="near-places__list places__list">
-              {offersInNeighbourhood ? offersInNeighbourhood.map((neighbourhoodOffer) => (
+              {offersInNeighbourhood ? offersInNeighbourhood.slice(0, 3).map((neighbourhoodOffer) => (
                 <article
                   className="near-places__card place-card"
                   key={neighbourhoodOffer.id}
