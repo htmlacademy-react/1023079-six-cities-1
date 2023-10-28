@@ -1,6 +1,5 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { OfferType } from '../mocks/offers';
-import { AxiosError } from 'axios';
 import { dropToken } from '../token';
 import { AppDispatchType } from '../types/state';
 
@@ -42,7 +41,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   dropToken();
 });
 
-export const setError = createAction('setError', (value: AxiosError) => ({
+export const setError = createAction('setError', (value: string) => ({
   payload: value
 }));
 
