@@ -5,14 +5,10 @@ import ReviewsList from '../../components/reviews-list/reviews-list';
 import { ReviewType } from '../../mocks/reviews';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import {
-  getOffersInNeighbourhood,
-  getRating,
-} from '../../utils';
+import { getRating} from '../../utils';
 import Map from '../../components/map/map';
 import Card from '../../components/card/card';
 import { OfferType } from '../../mocks/offers';
-import { useAppSelector } from '../../hooks';
 import HeaderNav from '../../components/header-nav/header-nav';
 import axios from 'axios';
 import { AppRoutes } from '../../consts';
@@ -30,11 +26,6 @@ type StateType = {
 export default function OfferScreen({
   reviews,
 }: OfferScreenProps): JSX.Element {
-  const offersInThisCity = useAppSelector(
-    (state) => state.offersForCurrentCity
-  );
-  const [activeNeighbourhoodOfferId, setActiveNeighbourhoodOfferId] =
-    useState(-1);
   const { id } = useParams();
   const navigate = useNavigate();
   const [offerData, setOfferData] = useState<StateType>({
@@ -48,30 +39,25 @@ export default function OfferScreen({
       const fetchOffer = async () => {
         try {
           const {data} = await axios.get<OfferType>(`https://12.react.pages.academy/six-cities/hotels/${id}`);
-          setOfferData({...offerData, offer: data});
+          setOfferData((prevData) => ({...prevData, offer: data}));
         } catch (error) {
           navigate(`${AppRoutes.Main}*`);
         }
       };
 
+      const fetchNeighbourhood = async () => {
+        const {data} = await axios.get<OfferType[]>(`https://12.react.pages.academy/six-cities/hotels/${id}/nearby`);
+        setOfferData((prevData) => ({...prevData, offersInNeighbourhood: data}));
+      };
+
       fetchOffer();
+      fetchNeighbourhood();
     }
   }, [id]);
 
-  const {offer} = offerData;
+  const {offer, offersInNeighbourhood} = offerData;
 
   if(offer) {
-    const offersInNeighbourhood = getOffersInNeighbourhood(
-      offersInThisCity,
-      offer.id
-    );
-
-    const onMouseOverHandler = (neighbourhoodOfferId: number) => {
-      setActiveNeighbourhoodOfferId(neighbourhoodOfferId);
-    };
-
-    const onMouseLeave = () => setActiveNeighbourhoodOfferId(-1);
-
     const getGoodsElement = () =>
       offer.goods.map((elem) => (
         <li key={elem} className="property__inside-item">
@@ -196,7 +182,8 @@ export default function OfferScreen({
             <section className="property__map map">
               <Map
                 city={offer.city}
-                selectedOfferId={activeNeighbourhoodOfferId}
+                offersInNeighbourhood={offersInNeighbourhood}
+                currentOffer={offer}
               />
             </section>
           </section>
@@ -207,7 +194,7 @@ export default function OfferScreen({
               Other places in the neighbourhood
             </h2>
             <div className="near-places__list places__list">
-              {offersInNeighbourhood.map((neighbourhoodOffer) => (
+              {offersInNeighbourhood ? offersInNeighbourhood.map((neighbourhoodOffer) => (
                 <article
                   className="near-places__card place-card"
                   key={neighbourhoodOffer.id}
@@ -219,11 +206,9 @@ export default function OfferScreen({
                     img={neighbourhoodOffer.previewImage}
                     type={neighbourhoodOffer.type}
                     description={neighbourhoodOffer.description}
-                    onMouseOver={() => onMouseOverHandler(neighbourhoodOffer.id)}
-                    onMouseLeave={onMouseLeave}
                   />
                 </article>
-              ))}
+              )) : null}
             </div>
           </section>
         </div>
