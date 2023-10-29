@@ -11,7 +11,8 @@ import Card from '../../components/card/card';
 import { OfferType } from '../../mocks/offers';
 import HeaderNav from '../../components/header-nav/header-nav';
 import axios from 'axios';
-import { AppRoutes } from '../../consts';
+import { AppRoutes, AuthorizationsStatus } from '../../consts';
+import { useAppSelector } from '../../hooks';
 
 type StateType = {
   offer: OfferType | undefined;
@@ -20,8 +21,10 @@ type StateType = {
 }
 
 export default function OfferScreen(): JSX.Element {
-  const { id } = useParams();
   const navigate = useNavigate();
+  const { id } = useParams();
+  const status = useAppSelector((state) => state.authorizationStatus);
+
   const [offerData, setOfferData] = useState<StateType>({
     offer: undefined,
     reviews: [],
@@ -175,7 +178,7 @@ export default function OfferScreen(): JSX.Element {
                     <span className="reviews__amount">{reviews?.length ?? 0}</span>
                   </h2>
                   <ReviewsList reviews={reviews} />
-                  <CommentForm />
+                  {status === AuthorizationsStatus.Auth && <CommentForm />}
                 </section>
               </div>
             </div>
