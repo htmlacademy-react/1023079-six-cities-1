@@ -10,9 +10,9 @@ import Map from '../../components/map/map';
 import Card from '../../components/card/card';
 import { OfferType } from '../../mocks/offers';
 import HeaderNav from '../../components/header-nav/header-nav';
-import axios from 'axios';
 import { AppRoutes, AuthorizationsStatus } from '../../consts';
 import { useAppSelector } from '../../hooks';
+import { api } from '../../store';
 
 type StateType = {
   offer: OfferType | undefined;
@@ -31,11 +31,17 @@ export default function OfferScreen(): JSX.Element {
     offersInNeighbourhood: []
   });
 
+  const [isNeedToUpdateReviews, setIsNeedToUpdateReviews] = useState(true);
+
+  const handleNeedToUpdate = () => {
+    setIsNeedToUpdateReviews(true);
+  };
+
   useEffect(() => {
     if(id) {
       const fetchOffer = async () => {
         try {
-          const {data} = await axios.get<OfferType>(`https://12.react.pages.academy/six-cities/hotels/${id}`);
+          const {data} = await api.get<OfferType>(`https://12.react.pages.academy/six-cities/hotels/${id}`);
           setOfferData((prevData) => ({...prevData, offer: data}));
         } catch (error) {
           navigate(`${AppRoutes.Main}*`);
@@ -43,20 +49,28 @@ export default function OfferScreen(): JSX.Element {
       };
 
       const fetchNeighbourhood = async () => {
-        const {data} = await axios.get<OfferType[]>(`https://12.react.pages.academy/six-cities/hotels/${id}/nearby`);
+        const {data} = await api.get<OfferType[]>(`https://12.react.pages.academy/six-cities/hotels/${id}/nearby`);
         setOfferData((prevData) => ({...prevData, offersInNeighbourhood: data}));
-      };
-
-      const fetchReviews = async () => {
-        const {data} = await axios.get<ReviewType[]>(`https://12.react.pages.academy/six-cities/comments/${id}`);
-        setOfferData((prevData) => ({...prevData, reviews: data}));
       };
 
       fetchOffer();
       fetchNeighbourhood();
-      fetchReviews();
     }
   }, [id]);
+
+  useEffect(() => {
+    if(isNeedToUpdateReviews && !!id) {
+      const fetchReviews = async () => {
+        const {data} = await api.get<ReviewType[]>(`https://12.react.pages.academy/six-cities/comments/${id}`);
+        setOfferData((prevData) => ({...prevData, reviews: data}));
+      };
+
+      fetchReviews();
+      setTimeout(() => {
+        setIsNeedToUpdateReviews(false);
+      }, 2000);
+    }
+  }, [isNeedToUpdateReviews]);
 
   const {offer, offersInNeighbourhood, reviews} = offerData;
 
@@ -178,7 +192,7 @@ export default function OfferScreen(): JSX.Element {
                     <span className="reviews__amount">{reviews?.length ?? 0}</span>
                   </h2>
                   <ReviewsList reviews={reviews} />
-                  {status === AuthorizationsStatus.Auth && <CommentForm />}
+                  {status === AuthorizationsStatus.Auth && <CommentForm offerId={id} handleNeedToUpdate={handleNeedToUpdate}/>}
                 </section>
               </div>
             </div>
