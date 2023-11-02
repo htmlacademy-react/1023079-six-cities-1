@@ -209,6 +209,7 @@ export default function OfferScreen(): JSX.Element {
                   key={neighbourhoodOffer.id}
                 >
                   <Card
+                    rating={neighbourhoodOffer.rating}
                     key={neighbourhoodOffer.id}
                     id={neighbourhoodOffer.id}
                     price={neighbourhoodOffer.price}

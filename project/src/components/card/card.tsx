@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { getRating } from '../../utils';
 
 type CardProps = {
   price: number;
@@ -8,10 +9,12 @@ type CardProps = {
   description: string;
   onMouseOver?: () => void;
   onMouseLeave?: () => void;
+  rating: number;
 };
 
 export default function Card({
   price,
+  rating,
   img,
   type,
   description,
@@ -60,7 +63,7 @@ export default function Card({
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: '80%' }}></span>
+            <span style={getRating(rating)}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

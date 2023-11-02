@@ -23,6 +23,7 @@ export function OfferList({offers, onOfferListItemHover}: OfferListType): JSX.El
     <React.Fragment>
       {offers.map((offer: OfferType) => (
         <Card
+          rating={offer.rating}
           key={offer.id}
           id={offer.id}
           price={offer.price}
