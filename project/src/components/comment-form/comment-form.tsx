@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
 import { STARS_DATA } from '../../consts';
-import { api } from '../../store';
+import { CommentData } from '../../types/state';
 
 type props = {
   offerId: string | undefined;
-  handleNeedToUpdate: () => void;
+  handlNewReviewAdded: (commentData: CommentData, testId: string) => Promise<void>;
 }
 
-export function CommentForm({offerId, handleNeedToUpdate}: props): JSX.Element {
-  const [commentData, setCommentData] = useState<{
-    rating: number;
-    comment: string;
-  }>({
+export function CommentForm({offerId, handlNewReviewAdded}: props): JSX.Element {
+  const [commentData, setCommentData] = useState<CommentData>({
     rating: 0,
     comment: ''
   });
@@ -46,9 +43,8 @@ export function CommentForm({offerId, handleNeedToUpdate}: props): JSX.Element {
   const handleFormSubmit = (evt: React.FormEvent) => {
     if(offerId) {
       evt.preventDefault();
-      api.post(`https://12.react.pages.academy/six-cities/comments/${offerId}`, commentData);
+      handlNewReviewAdded(commentData, offerId);
       resetComment();
-      handleNeedToUpdate();
     }
   };
 

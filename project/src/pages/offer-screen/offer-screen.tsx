@@ -13,6 +13,7 @@ import HeaderNav from '../../components/header-nav/header-nav';
 import { AppRoutes, AuthorizationsStatus } from '../../consts';
 import { useAppSelector } from '../../hooks';
 import { api } from '../../store';
+import { CommentData } from '../../types/state';
 
 type StateType = {
   offer: OfferType | undefined;
@@ -31,12 +32,6 @@ export default function OfferScreen(): JSX.Element {
     offersInNeighbourhood: []
   });
 
-  const [isNeedToUpdateReviews, setIsNeedToUpdateReviews] = useState(true);
-
-  const handleNeedToUpdate = () => {
-    setIsNeedToUpdateReviews(true);
-  };
-
   useEffect(() => {
     if(id) {
       const fetchOffer = async () => {
@@ -53,26 +48,23 @@ export default function OfferScreen(): JSX.Element {
         setOfferData((prevData) => ({...prevData, offersInNeighbourhood: data}));
       };
 
-      fetchOffer();
-      fetchNeighbourhood();
-    }
-  }, [id]);
-
-  useEffect(() => {
-    if(isNeedToUpdateReviews && !!id) {
       const fetchReviews = async () => {
         const {data} = await api.get<ReviewType[]>(`https://12.react.pages.academy/six-cities/comments/${id}`);
         setOfferData((prevData) => ({...prevData, reviews: data}));
       };
 
+      fetchOffer();
+      fetchNeighbourhood();
       fetchReviews();
-      setTimeout(() => {
-        setIsNeedToUpdateReviews(false);
-      }, 2000);
     }
-  }, [isNeedToUpdateReviews]);
+  }, [id]);
 
   const {offer, offersInNeighbourhood, reviews} = offerData;
+
+  const handlNewReviewAdded = async (commentData: CommentData, testId: string) => {
+    const {data} = await api.post<ReviewType[]>(`https://12.react.pages.academy/six-cities/comments/${testId}`, commentData);
+    setOfferData((prevData) => ({...prevData, reviews: data}));
+  };
 
   if(offer) {
     const getGoodsElement = () =>
@@ -192,7 +184,7 @@ export default function OfferScreen(): JSX.Element {
                     <span className="reviews__amount">{reviews?.length ?? 0}</span>
                   </h2>
                   <ReviewsList reviews={reviews} />
-                  {status === AuthorizationsStatus.Auth && <CommentForm offerId={id} handleNeedToUpdate={handleNeedToUpdate}/>}
+                  {status === AuthorizationsStatus.Auth && <CommentForm offerId={id} handlNewReviewAdded={handlNewReviewAdded}/>}
                 </section>
               </div>
             </div>
