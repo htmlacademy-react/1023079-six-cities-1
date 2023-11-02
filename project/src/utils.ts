@@ -26,6 +26,6 @@ export const getRating = (rating: number) => {
   } else if (rating < 5) {
     return { width: '80%' };
   } else {
-    return { with: '100%' };
+    return { width: '100%' };
   }
 };

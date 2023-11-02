@@ -24,12 +24,13 @@ export function CommentForm({offerId, handleNeedToUpdate}: props): JSX.Element {
         value={value}
         id={id}
         type="radio"
+        checked={commentData.rating === +value}
       />
       <label
         htmlFor={id}
         className="reviews__rating-label form__rating-label"
         title="perfect"
-        onClick={() => setCommentData((prevData) => ({...prevData, rating: Number(value)}))}
+        onClick={() => setCommentData((prevData) => ({...prevData, rating: +value}))}
       >
         <svg className="form__star-image" width="37" height="33">
           <use xlinkHref="#icon-star"></use>
@@ -39,7 +40,7 @@ export function CommentForm({offerId, handleNeedToUpdate}: props): JSX.Element {
   ));
 
   const resetComment = () => {
-    setCommentData({...commentData, comment: ''});
+    setCommentData({rating: 0, comment: ''});
   };
 
   const handleFormSubmit = (evt: React.FormEvent) => {
