@@ -24,8 +24,8 @@ export const getRating = (rating: number) => {
   } else if (rating < 4) {
     return { width: '60%' };
   } else if (rating < 5) {
-    return { width: '80%' };
+    return {width: '80%'};
   } else {
-    return { with: '100%' };
+    return {width: '100%'};
   }
 };

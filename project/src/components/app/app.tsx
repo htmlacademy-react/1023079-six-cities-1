@@ -7,15 +7,10 @@ import FavoritesScreen from '../../pages/favorites-screen/favorites-screen';
 import LoginScreen from '../../pages/login-screen/login-screen';
 import PrivateRoute from '../private-route/private-route';
 import { HelmetProvider } from 'react-helmet-async';
-import { ReviewType } from '../../mocks/reviews';
 import { useAppSelector } from '../../hooks';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
-type AppProps = {
-  reviews: ReviewType[];
-};
-
-function App({ reviews }: AppProps): JSX.Element {
+function App(): JSX.Element {
   const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
 
   if(isOffersLoading) {
@@ -39,7 +34,7 @@ function App({ reviews }: AppProps): JSX.Element {
               }
             />
             <Route path={AppRoutes.Login} element={<LoginScreen />} />
-            <Route path={AppRoutes.Room} element={<OfferScreen reviews={reviews}/>} />
+            <Route path={AppRoutes.Room} element={<OfferScreen/>} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

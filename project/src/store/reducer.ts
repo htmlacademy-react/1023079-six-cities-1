@@ -2,7 +2,6 @@ import { createReducer } from '@reduxjs/toolkit';
 import { changeCity, fillOffersList, changeSortType, toggleSorts, setOffers, changeIsOffersLoadingStatus, requireAuthorization, setError, setStatusNoAuthAction } from './action';
 import { OfferType } from '../mocks/offers';
 import { AuthorizationsStatus } from '../consts';
-import { AxiosError } from 'axios';
 
 export type InitialStateType = {
   cityName: string;
@@ -12,7 +11,7 @@ export type InitialStateType = {
   isSortsOpen: boolean;
   isOffersLoading: boolean;
   authorizationStatus: string;
-  error: AxiosError | null;
+  error: string | null;
 }
 
 const initalState: InitialStateType = {

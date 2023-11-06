@@ -13,3 +13,8 @@ export type UserData = {
   email: string;
   token: string;
 };
+
+export type CommentData = {
+  rating: number;
+  comment: string;
+}

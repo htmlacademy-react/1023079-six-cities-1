@@ -23,9 +23,6 @@ export const AuthorizationsStatus: AuthorizationsType = {
   Unknown: 'UNKNOWN'
 } as const;
 
-export const MOCK_OFFERS_COUNT = 4;
-export const MOCK_REVIEWS_COUNT = 3;
-
 export const STARS_DATA: StarsDataType = [
   {
     value: '5',
@@ -46,22 +43,6 @@ export const STARS_DATA: StarsDataType = [
   {
     value: '1',
     id: '1-stars'
-  }
-];
-
-export const LAT_LON_DATA = [
-  {
-    lat: 52.3909553943508,
-    lon: 4.85309666406198
-  }, {
-    lat: 52.3609553943508,
-    lon: 4.85309666406198
-  }, {
-    lat: 52.3909553943508,
-    lon: 4.929309666406198
-  }, {
-    lat: 52.3809553943508,
-    lon: 4.939309666406198
   }
 ];
 

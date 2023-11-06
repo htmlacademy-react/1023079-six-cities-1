@@ -3,6 +3,7 @@ import 'leaflet/dist/leaflet.css';
 import { MutableRefObject, useRef, useEffect } from 'react';
 import useMap from '../../hooks/useMap';
 import { useAppSelector } from '../../hooks';
+import { OfferType } from '../../mocks/offers';
 
 type MapProps = {
   city: {
@@ -13,14 +14,17 @@ type MapProps = {
     };
     name: string;
   };
-  selectedOfferId: number;
+  selectedOfferId?: number;
+  offersInNeighbourhood?: OfferType[];
+  currentOffer?: OfferType;
 };
 
-export default function Map({ city, selectedOfferId }: MapProps) {
+export default function Map({ city, selectedOfferId, offersInNeighbourhood, currentOffer }: MapProps) {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const map = useMap(city, mapRef as MutableRefObject<HTMLElement>);
   const markersRef = useRef<leaflet.Marker[]>([]);
-  const offers = useAppSelector((state) => state.offersForCurrentCity);
+  const offersForCurrentCity = useAppSelector((state) => state.offersForCurrentCity);
+  const offers = offersInNeighbourhood ? offersInNeighbourhood : offersForCurrentCity;
 
 
   const defaultCustomIcon = leaflet.icon({
@@ -43,6 +47,9 @@ export default function Map({ city, selectedOfferId }: MapProps) {
         map.setView([cityForCenter.location.latitude, cityForCenter.location.longitude]);
       }
       if(offers.length) {
+        if(currentOffer) {
+          offers.push(currentOffer);
+        }
         offers.forEach((offer) => {
           const marker = leaflet
             .marker(
@@ -52,7 +59,7 @@ export default function Map({ city, selectedOfferId }: MapProps) {
               },
               {
                 icon:
-                  offer.id === selectedOfferId
+                  offer.id === selectedOfferId || offer.id === currentOffer?.id
                     ? currentCustomIcon
                     : defaultCustomIcon,
               }

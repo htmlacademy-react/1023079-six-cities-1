@@ -59,6 +59,8 @@ export const loginAction = createAsyncThunk<
     saveToken(token);
     dispatch(requireAuthorization(AuthorizationsStatus.Auth));
   } catch (error) {
-    dispatch(setError(error as AxiosError));
+    if(error instanceof AxiosError && error.message) {
+      dispatch(setError(error.message));
+    }
   }
 });
