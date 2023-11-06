@@ -1,13 +1,13 @@
-import { OfferList } from '../../components/offers-list/offers-list';
+import OfferList from '../../components/offers-list/offers-list';
 import Logo from '../../components/logo/logo';
 import { Helmet } from 'react-helmet-async';
 import Map from '../../components/map/map';
-import { useState } from 'react';
-import { CitiesList } from '../../components/cities-list/cities-list';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import SortVarients from '../../components/sort-variants/sort-varients';
 import { toggleSorts } from '../../store/action';
 import HeaderNav from '../../components/header-nav/header-nav';
+import CitiesList from '../../components/cities-list/cities-list';
+import { useSelectedOffer } from '../../hooks/useSelectedOffer';
 
 export default function StartScreen(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -16,12 +16,9 @@ export default function StartScreen(): JSX.Element {
   const offersForCurrentCity = useAppSelector(
     (state) => state.offersForCurrentCity
   );
-  const [selectedOfferId, setSelectedOfferId] = useState(-1);
   const isSortsOpen = useAppSelector((state) => state.isSortsOpen);
 
-  const onOfferListItemHover = (id: number) => {
-    setSelectedOfferId(id);
-  };
+  const [selectedOfferId, handleSelectedOfferChange] = useSelectedOffer();
 
   return (
     <div className="page page--gray page--main">
@@ -76,7 +73,7 @@ export default function StartScreen(): JSX.Element {
               <div className="cities__places-list places__list tabs__content">
                 <OfferList
                   offers={offersForCurrentCity}
-                  onOfferListItemHover={onOfferListItemHover}
+                  onOfferListItemHover={handleSelectedOfferChange}
                 />
               </div>
             </section>

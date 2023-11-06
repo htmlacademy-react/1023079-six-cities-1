@@ -10,7 +10,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { useAppSelector } from '../../hooks';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
-function App(): JSX.Element {
+export default function App(): JSX.Element {
   const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
 
   if(isOffersLoading) {
@@ -43,4 +43,3 @@ function App(): JSX.Element {
   );
 }
 
-export default App;

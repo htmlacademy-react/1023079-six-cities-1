@@ -1,6 +1,6 @@
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { MutableRefObject, useRef, useEffect } from 'react';
+import { MutableRefObject, useRef, useEffect, memo } from 'react';
 import useMap from '../../hooks/useMap';
 import { useAppSelector } from '../../hooks';
 import { OfferType } from '../../mocks/offers';
@@ -19,7 +19,7 @@ type MapProps = {
   currentOffer?: OfferType;
 };
 
-export default function Map({ city, selectedOfferId, offersInNeighbourhood, currentOffer }: MapProps) {
+function Map({ city, selectedOfferId, offersInNeighbourhood, currentOffer }: MapProps) {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const map = useMap(city, mapRef as MutableRefObject<HTMLElement>);
   const markersRef = useRef<leaflet.Marker[]>([]);
@@ -73,3 +73,5 @@ export default function Map({ city, selectedOfferId, offersInNeighbourhood, curr
 
   return <div ref={mapRef} style={{ height: '100%' }} />;
 }
+
+export default memo(Map);

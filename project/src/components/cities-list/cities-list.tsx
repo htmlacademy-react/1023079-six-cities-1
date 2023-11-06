@@ -1,8 +1,9 @@
+import { memo } from 'react';
 import { CITIES_LIST } from '../../consts';
 import { useAppDispatch, useAppSelector} from '../../hooks';
 import { changeCity, fillOffersList } from '../../store/action';
 
-export function CitiesList(): JSX.Element {
+function CitiesList(): JSX.Element {
   const choosenCity = useAppSelector((state) => state.cityName);
   const dispatch = useAppDispatch();
 
@@ -30,3 +31,5 @@ export function CitiesList(): JSX.Element {
     </ul>
   );
 }
+
+export default memo(CitiesList);

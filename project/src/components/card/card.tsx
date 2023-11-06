@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { getRating } from '../../utils';
+import { memo } from 'react';
 
 type CardProps = {
   price: number;
@@ -12,7 +13,7 @@ type CardProps = {
   rating: number;
 };
 
-export default function Card({
+function Card({
   price,
   rating,
   img,
@@ -75,3 +76,5 @@ export default function Card({
     </article>
   );
 }
+
+export default memo(Card);
