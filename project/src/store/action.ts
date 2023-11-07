@@ -45,4 +45,7 @@ export const setError = createAction('setError', (value: string) => ({
   payload: value
 }));
 
+export const setSelectedOfferId = createAction('setSelectedOfferId', (value: number) => ({
+  payload: value
+}));
 

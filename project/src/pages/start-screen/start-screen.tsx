@@ -7,7 +7,6 @@ import SortVarients from '../../components/sort-variants/sort-varients';
 import { toggleSorts } from '../../store/action';
 import HeaderNav from '../../components/header-nav/header-nav';
 import CitiesList from '../../components/cities-list/cities-list';
-import { useSelectedOffer } from '../../hooks/useSelectedOffer';
 
 export default function StartScreen(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -18,7 +17,7 @@ export default function StartScreen(): JSX.Element {
   );
   const isSortsOpen = useAppSelector((state) => state.isSortsOpen);
 
-  const [selectedOfferId, handleSelectedOfferChange] = useSelectedOffer();
+  // const [selectedOfferId, handleSelectedOfferChange] = useSelectedOffer();
 
   return (
     <div className="page page--gray page--main">
@@ -73,7 +72,6 @@ export default function StartScreen(): JSX.Element {
               <div className="cities__places-list places__list tabs__content">
                 <OfferList
                   offers={offersForCurrentCity}
-                  onOfferListItemHover={handleSelectedOfferChange}
                 />
               </div>
             </section>
@@ -81,7 +79,6 @@ export default function StartScreen(): JSX.Element {
               <section className="cities__map map">
                 <Map
                   city={offersForCurrentCity[0].city}
-                  selectedOfferId={selectedOfferId}
                 />
               </section>
             </div>

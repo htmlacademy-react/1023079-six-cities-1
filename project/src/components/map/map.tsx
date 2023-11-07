@@ -14,17 +14,17 @@ type MapProps = {
     };
     name: string;
   };
-  selectedOfferId?: number;
   offersInNeighbourhood?: OfferType[];
   currentOffer?: OfferType;
 };
 
-function Map({ city, selectedOfferId, offersInNeighbourhood, currentOffer }: MapProps) {
+function Map({ city, offersInNeighbourhood, currentOffer }: MapProps) {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const map = useMap(city, mapRef as MutableRefObject<HTMLElement>);
   const markersRef = useRef<leaflet.Marker[]>([]);
   const offersForCurrentCity = useAppSelector((state) => state.offersForCurrentCity);
   const offers = offersInNeighbourhood ? offersInNeighbourhood : offersForCurrentCity;
+  const selectedOfferId = useAppSelector((state) => state.selectedOfferId);
 
 
   const defaultCustomIcon = leaflet.icon({

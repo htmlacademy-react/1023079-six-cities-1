@@ -1,22 +1,25 @@
 import Card from '../card/card';
 import { OfferType } from '../../mocks/offers';
 import React, { memo, useCallback } from 'react';
+import { useAppDispatch } from '../../hooks';
+import { setSelectedOfferId } from '../../store/action';
 
 type OfferListType = {
   offers: OfferType[];
-  onOfferListItemHover: (id: number) => void;
 }
 
-function OfferList({offers, onOfferListItemHover}: OfferListType): JSX.Element {
+function OfferList({offers}: OfferListType): JSX.Element {
+  const dispatch = useAppDispatch();
+
   const onMouseOverHandler = useCallback(
     (id: number) => {
-      onOfferListItemHover(id);
+      dispatch(setSelectedOfferId(id));
     }, []
   );
 
   const onMouseLeave = useCallback(
     () => {
-      onOfferListItemHover(-1);
+      dispatch(setSelectedOfferId(-1));
     }, []
   );
 

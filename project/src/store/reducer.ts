@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, fillOffersList, changeSortType, toggleSorts, setOffers, changeIsOffersLoadingStatus, requireAuthorization, setError, setStatusNoAuthAction } from './action';
+import { changeCity, fillOffersList, changeSortType, toggleSorts, setOffers, changeIsOffersLoadingStatus, requireAuthorization, setError, setStatusNoAuthAction, setSelectedOfferId } from './action';
 import { OfferType } from '../mocks/offers';
 import { AuthorizationsStatus } from '../consts';
 
@@ -12,6 +12,7 @@ export type InitialStateType = {
   isOffersLoading: boolean;
   authorizationStatus: string;
   error: string | null;
+  selectedOfferId: number;
 }
 
 const initalState: InitialStateType = {
@@ -22,7 +23,8 @@ const initalState: InitialStateType = {
   offersForCurrentCity: [],
   isSortsOpen: false,
   isOffersLoading: true,
-  error: null
+  error: null,
+  selectedOfferId: -1
 };
 
 export const reducer = createReducer(initalState, (builder) => {
@@ -75,5 +77,8 @@ export const reducer = createReducer(initalState, (builder) => {
     })
     .addCase(setError, (state, action) => {
       state.error = action.payload;
+    })
+    .addCase(setSelectedOfferId, (state, action) => {
+      state.selectedOfferId = action.payload;
     });
 });
