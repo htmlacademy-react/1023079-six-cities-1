@@ -17,8 +17,6 @@ export default function StartScreen(): JSX.Element {
   );
   const isSortsOpen = useAppSelector((state) => state.isSortsOpen);
 
-  // const [selectedOfferId, handleSelectedOfferChange] = useSelectedOffer();
-
   return (
     <div className="page page--gray page--main">
       <Helmet>
