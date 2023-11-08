@@ -39,7 +39,7 @@ export const loginAction = createAsyncThunk<
   try {
     const {
       data: { token, email },
-    } = await api.post<UserData>('/lawd', { email: login, password });
+    } = await api.post<UserData>('/login', { email: login, password });
     localStorage.setItem('user', email);
     saveToken(token);
   } catch (error) {
