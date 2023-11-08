@@ -1,10 +1,16 @@
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { SORT_VARIANTS } from '../../consts';
-import { changeSortType } from '../../store/action';
+import { changeSortType } from '../../store/data-process/data-process.slice';
+import { toggleSorts } from '../../store/app-process/app-process.slice';
 
 export default function SortVarients(): JSX.Element {
-  const selectedSortType = useAppSelector((state) => state.sortType);
+  const selectedSortType = useAppSelector((state) => state.DATA.sortType);
   const dispatch = useAppDispatch();
+
+  const changeSortHandler = (variant: string) => {
+    dispatch(toggleSorts());
+    dispatch(changeSortType(variant));
+  };
 
   return (
     <ul className="places__options places__options--custom places__options--opened">
@@ -13,7 +19,7 @@ export default function SortVarients(): JSX.Element {
 
         return (
           <li
-            onClick={() => dispatch(changeSortType(variant))}
+            onClick={() => changeSortHandler(variant)}
             className={`places__option ${className}`}
             tabIndex={0}
             key={variant}

@@ -24,7 +24,7 @@ type StateType = {
 export default function OfferScreen(): JSX.Element {
   const navigate = useNavigate();
   const { id } = useParams();
-  const status = useAppSelector((state) => state.authorizationStatus);
+  const status = useAppSelector((state) => state.USER.authorizationStatus);
 
   const [offerData, setOfferData] = useState<StateType>({
     offer: undefined,
@@ -190,7 +190,6 @@ export default function OfferScreen(): JSX.Element {
             </div>
             <section className="property__map map">
               <Map
-                city={offer.city}
                 offersInNeighbourhood={offersInNeighbourhood}
                 currentOffer={offer}
               />

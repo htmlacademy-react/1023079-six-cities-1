@@ -6,25 +6,18 @@ import { useAppSelector } from '../../hooks';
 import { OfferType } from '../../mocks/offers';
 
 type MapProps = {
-  city: {
-    location: {
-      latitude: number;
-      longitude: number;
-      zoom: number;
-    };
-    name: string;
-  };
   offersInNeighbourhood?: OfferType[];
   currentOffer?: OfferType;
 };
 
-function Map({ city, offersInNeighbourhood, currentOffer }: MapProps) {
+function Map({ offersInNeighbourhood, currentOffer }: MapProps) {
+  const offersForCurrentCity = useAppSelector((state) => state.DATA.offersForCurrentCity);
+  const city = offersForCurrentCity[0].city;
   const mapRef = useRef<HTMLDivElement | null>(null);
   const map = useMap(city, mapRef as MutableRefObject<HTMLElement>);
   const markersRef = useRef<leaflet.Marker[]>([]);
-  const offersForCurrentCity = useAppSelector((state) => state.offersForCurrentCity);
   const offers = offersInNeighbourhood ? offersInNeighbourhood : offersForCurrentCity;
-  const selectedOfferId = useAppSelector((state) => state.selectedOfferId);
+  const selectedOfferId = useAppSelector((state) => state.APP.selectedOfferId);
 
 
   const defaultCustomIcon = leaflet.icon({

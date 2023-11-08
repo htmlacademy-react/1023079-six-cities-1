@@ -1,15 +1,14 @@
 import Card from '../card/card';
 import { OfferType } from '../../mocks/offers';
 import React, { memo } from 'react';
-import { useAppDispatch } from '../../hooks';
-import { setSelectedOfferId } from '../../store/action';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { setSelectedOfferId } from '../../store/app-process/app-process.slice';
 
-type OfferListType = {
-  offers: OfferType[];
-}
-
-function OfferList({offers}: OfferListType): JSX.Element {
+function OfferList(): JSX.Element {
   const dispatch = useAppDispatch();
+  const offersForCurrentCity = useAppSelector(
+    (state) => state.DATA.offersForCurrentCity
+  );
 
   const onMouseOverHandler = (id: number) => {
     dispatch(setSelectedOfferId(id));
@@ -21,7 +20,7 @@ function OfferList({offers}: OfferListType): JSX.Element {
 
   return (
     <React.Fragment>
-      {offers.map((offer: OfferType) => (
+      {offersForCurrentCity.map((offer: OfferType) => (
         <Card
           rating={offer.rating}
           key={offer.id}

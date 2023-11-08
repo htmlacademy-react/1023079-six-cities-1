@@ -11,7 +11,7 @@ import { useAppSelector } from '../../hooks';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
 export default function App(): JSX.Element {
-  const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
+  const isOffersLoading = useAppSelector((state) => state.DATA.isOffersLoading);
 
   if(isOffersLoading) {
     return (

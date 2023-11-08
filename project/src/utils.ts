@@ -2,7 +2,7 @@ import { OfferType } from './mocks/offers';
 import { store } from './store';
 
 export const getOfferOnPage = (id: number): OfferType => {
-  const offers = store.getState().allOffers;
+  const offers = store.getState().DATA.allOffers;
   const offerOnPage = offers.find((offer) => offer.id === id);
   if (offerOnPage) {
     return offerOnPage;

@@ -5,7 +5,7 @@ import AuthorizedHeader from './authorized-header';
 import UnAuthorizedHeader from './unauthorized-header';
 
 function HeaderNav(): JSX.Element {
-  const status = useAppSelector((state) => state.authorizationStatus);
+  const status = useAppSelector((state) => state.USER.authorizationStatus);
   const getHeader = () => status === AuthorizationsStatus.Auth ? <AuthorizedHeader /> : <UnAuthorizedHeader />;
 
   return (

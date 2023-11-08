@@ -6,7 +6,7 @@ import HeaderNav from '../../components/header-nav/header-nav';
 
 function CurrentCityOffersList(): JSX.Element {
 
-  const offers = useAppSelector((state) => state.offersForCurrentCity);
+  const offers = useAppSelector((state) => state.DATA.offersForCurrentCity);
 
   return (
     <React.Fragment>
@@ -70,7 +70,7 @@ function CurrentCityOffersList(): JSX.Element {
 }
 
 export default function FavoritesScreen(): JSX.Element {
-  const offers = useAppSelector((state) => state.allOffers);
+  const offers = useAppSelector((state) => state.DATA.allOffers);
   const offersCityNames: string[] = offers.map((offer) => offer.city.name);
   const uniqueCityNames: string[] = Array.from(new Set(offersCityNames));
 
