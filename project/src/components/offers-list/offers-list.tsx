@@ -1,6 +1,6 @@
 import Card from '../card/card';
 import { OfferType } from '../../mocks/offers';
-import React, { memo, useCallback } from 'react';
+import React, { memo } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { setSelectedOfferId } from '../../store/action';
 
@@ -11,17 +11,13 @@ type OfferListType = {
 function OfferList({offers}: OfferListType): JSX.Element {
   const dispatch = useAppDispatch();
 
-  const onMouseOverHandler = useCallback(
-    (id: number) => {
-      dispatch(setSelectedOfferId(id));
-    }, []
-  );
+  const onMouseOverHandler = (id: number) => {
+    dispatch(setSelectedOfferId(id));
+  };
 
-  const onMouseLeave = useCallback(
-    () => {
-      dispatch(setSelectedOfferId(-1));
-    }, []
-  );
+  const onMouseLeave = () => {
+    dispatch(setSelectedOfferId(-1));
+  };
 
   return (
     <React.Fragment>
