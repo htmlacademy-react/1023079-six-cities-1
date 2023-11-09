@@ -60,7 +60,6 @@ export const dataProcess = createSlice({
       })
       .addCase(fetchOffersAction.fulfilled, (state, action) => {
         state.allOffers = action.payload;
-        dataProcess.caseReducers.fillOffersList(state);
         state.isOffersLoading = false;
       });
   },
