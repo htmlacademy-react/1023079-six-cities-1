@@ -28,9 +28,6 @@ export const dataProcess = createSlice({
     changeCity: (state, action: PayloadAction<string>) => {
       state.cityName = action.payload;
     },
-    fillOffersList: (state) => {
-      state.offersForCurrentCity = state.allOffers.filter((offer) => offer.city.name === state.cityName);
-    },
     changeSortType: (state, action: PayloadAction<string>) => {
       state.sortType = action.payload;
 
@@ -65,4 +62,4 @@ export const dataProcess = createSlice({
   },
 });
 
-export const {changeCity, fillOffersList, changeSortType} = dataProcess.actions;
+export const {changeCity, changeSortType} = dataProcess.actions;

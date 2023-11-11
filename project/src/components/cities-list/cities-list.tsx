@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { CITIES_LIST } from '../../consts';
 import { useAppDispatch, useAppSelector} from '../../hooks';
-import { changeCity, fillOffersList } from '../../store/data-process/data-process.slice';
+import { changeCity } from '../../store/data-process/data-process.slice';
 
 function CitiesList(): JSX.Element {
   const choosenCity = useAppSelector((state) => state.DATA.cityName);
@@ -14,7 +14,6 @@ function CitiesList(): JSX.Element {
       return (
         <li className="locations__item" key={cityName} onClick={() => {
           dispatch(changeCity(cityName));
-          dispatch(fillOffersList());
         }}
         >
           <a className={className} href="#">

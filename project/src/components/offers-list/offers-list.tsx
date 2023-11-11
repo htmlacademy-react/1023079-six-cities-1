@@ -1,24 +1,14 @@
 import Card from '../card/card';
 import { OfferType } from '../../mocks/offers';
-import React, { memo, useEffect } from 'react';
+import React, { memo } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setSelectedOfferId } from '../../store/app-process/app-process.slice';
-import { fillOffersList } from '../../store/data-process/data-process.slice';
 
 function OfferList(): JSX.Element {
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    const getOffersForCurrentCity = () => {
-      dispatch(fillOffersList());
-    };
-
-    getOffersForCurrentCity();
-  }, []);
-
-  const offersForCurrentCity = useAppSelector(
-    (state) => state.DATA.offersForCurrentCity
-  );
+  const allOffers = useAppSelector((state) => state.DATA.allOffers);
+  const cityName = useAppSelector((state) => state.DATA.cityName);
+  const offersForCurrentCity = allOffers.filter((offer) => offer.city.name === cityName);
 
   const onMouseOverHandler = (id: number) => {
     dispatch(setSelectedOfferId(id));

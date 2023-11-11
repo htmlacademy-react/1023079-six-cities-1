@@ -46,5 +46,7 @@ export const loginAction = createAsyncThunk<
     if(error instanceof AxiosError && error.message) {
       dispatch(setError(error.message));
     }
+
+    return Promise.reject();
   }
 });

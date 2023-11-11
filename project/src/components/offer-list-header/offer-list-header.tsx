@@ -1,14 +1,13 @@
 import { useAppSelector } from '../../hooks';
 
 export default function OfferListHeader(): JSX.Element {
-  const currentCity = useAppSelector((state) => state.DATA.cityName);
-  const offersForCurrentCity = useAppSelector(
-    (state) => state.DATA.offersForCurrentCity
-  );
+  const allOffers = useAppSelector((state) => state.DATA.allOffers);
+  const cityName = useAppSelector((state) => state.DATA.cityName);
+  const offersForCurrentCity = allOffers.filter((offer) => offer.city.name === cityName);
 
   return (
     <b className="places__found">
-      {offersForCurrentCity.length} places to stay in {currentCity}
+      {offersForCurrentCity.length} places to stay in {cityName}
     </b>
   );
 }
