@@ -1,27 +1,27 @@
 import Card from '../card/card';
 import { OfferType } from '../../mocks/offers';
-import React, { useState } from 'react';
+import React, { memo, useMemo } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { setSelectedOfferId } from '../../store/app-process/app-process.slice';
+import { NameSpace } from '../../consts';
 
-type OfferListType = {
-  offers: OfferType[];
-  onOfferListItemHover: (id: number) => void;
-}
-
-export function OfferList({offers, onOfferListItemHover}: OfferListType): JSX.Element {
-  const setActiveCardId = useState(-1)[1];
+function OfferList(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const allOffers = useAppSelector((state) => state[NameSpace.Data].allOffers);
+  const cityName = useAppSelector((state) => state[NameSpace.Data].cityName);
+  const offersForCurrentCity = useMemo(() => allOffers.filter((offer) => offer.city.name === cityName), [allOffers, cityName]);
 
   const onMouseOverHandler = (id: number) => {
-    setActiveCardId(id);
-    onOfferListItemHover(id);
+    dispatch(setSelectedOfferId(id));
   };
 
   const onMouseLeave = () => {
-    setActiveCardId(-1);
+    dispatch(setSelectedOfferId(-1));
   };
 
   return (
     <React.Fragment>
-      {offers.map((offer: OfferType) => (
+      {offersForCurrentCity.map((offer: OfferType) => (
         <Card
           rating={offer.rating}
           key={offer.id}
@@ -37,3 +37,5 @@ export function OfferList({offers, onOfferListItemHover}: OfferListType): JSX.El
     </React.Fragment>
   );
 }
+
+export default memo(OfferList);

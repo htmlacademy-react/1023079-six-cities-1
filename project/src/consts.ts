@@ -49,3 +49,9 @@ export const STARS_DATA: StarsDataType = [
 export const CITIES_LIST = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
 export const SORT_VARIANTS = ['Popular', 'LowToHigh', 'HighToLow', 'TopRating'];
+
+export const NameSpace = {
+  Data: 'DATA',
+  User: 'USER',
+  App: 'APP'
+} as const;

@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { AppRoutes } from '../../consts';
+import { AppRoutes, NameSpace } from '../../consts';
 import StartScreen from '../../pages/start-screen/start-screen';
 import NotFound from '../../pages/not-found-screen/not-found-screen';
 import OfferScreen from '../../pages/offer-screen/offer-screen';
@@ -10,8 +10,8 @@ import { HelmetProvider } from 'react-helmet-async';
 import { useAppSelector } from '../../hooks';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
-function App(): JSX.Element {
-  const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
+export default function App(): JSX.Element {
+  const isOffersLoading = useAppSelector((state) => state[NameSpace.Data].isOffersLoading);
 
   if(isOffersLoading) {
     return (
@@ -43,4 +43,3 @@ function App(): JSX.Element {
   );
 }
 
-export default App;

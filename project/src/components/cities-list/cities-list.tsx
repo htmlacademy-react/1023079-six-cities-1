@@ -1,9 +1,10 @@
-import { CITIES_LIST } from '../../consts';
+import { memo } from 'react';
+import { CITIES_LIST, NameSpace } from '../../consts';
 import { useAppDispatch, useAppSelector} from '../../hooks';
-import { changeCity, fillOffersList } from '../../store/action';
+import { changeCity } from '../../store/data-process/data-process.slice';
 
-export function CitiesList(): JSX.Element {
-  const choosenCity = useAppSelector((state) => state.cityName);
+function CitiesList(): JSX.Element {
+  const choosenCity = useAppSelector((state) => state[NameSpace.Data].cityName);
   const dispatch = useAppDispatch();
 
   const getCitiesList = () => (
@@ -13,7 +14,6 @@ export function CitiesList(): JSX.Element {
       return (
         <li className="locations__item" key={cityName} onClick={() => {
           dispatch(changeCity(cityName));
-          dispatch(fillOffersList());
         }}
         >
           <a className={className} href="#">
@@ -30,3 +30,5 @@ export function CitiesList(): JSX.Element {
     </ul>
   );
 }
+
+export default memo(CitiesList);
