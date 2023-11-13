@@ -48,12 +48,18 @@ export const dataProcess = createSlice({
           state.offersForCurrentCity = state.allOffers.filter((offer) => offer.city.name === state.cityName);
           break;
       }
+    },
+    setOffersForSelectedCity: (state, action: PayloadAction<OfferType[]>) => {
+      state.offersForCurrentCity = action.payload;
     }
   },
   extraReducers(builder) {
     builder
       .addCase(fetchOffersAction.pending, (state) => {
         state.isOffersLoading = true;
+      })
+      .addCase(fetchOffersAction.rejected, (state) => {
+        state.isOffersLoading = false;
       })
       .addCase(fetchOffersAction.fulfilled, (state, action) => {
         state.allOffers = action.payload;
@@ -62,4 +68,4 @@ export const dataProcess = createSlice({
   },
 });
 
-export const {changeCity, changeSortType} = dataProcess.actions;
+export const {changeCity, changeSortType, setOffersForSelectedCity} = dataProcess.actions;

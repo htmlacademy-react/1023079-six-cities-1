@@ -13,12 +13,11 @@ type MapProps = {
 
 function Map({ offersInNeighbourhood, currentOffer }: MapProps) {
   const allOffers = useAppSelector((state) => state[NameSpace.Data].allOffers);
-  const cityName = useAppSelector((state) => state[NameSpace.Data].cityName);
   const mapRef = useRef<HTMLDivElement | null>(null);
   const markersRef = useRef<leaflet.Marker[]>([]);
   const selectedOfferId = useAppSelector((state) => state[NameSpace.App].selectedOfferId);
+  const offersForCurrentCity = useAppSelector((state) => state[NameSpace.Data].offersForCurrentCity);
 
-  const offersForCurrentCity = useMemo(() => allOffers.filter((offer) => offer.city.name === cityName), [allOffers, cityName]);
   const city = useMemo(() => offersForCurrentCity.length ? offersForCurrentCity[0].city : allOffers[0].city, [offersForCurrentCity, allOffers]);
   const offers = useMemo(() => offersInNeighbourhood ? offersInNeighbourhood : offersForCurrentCity, [offersInNeighbourhood, offersForCurrentCity]);
 
