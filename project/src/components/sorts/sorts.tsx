@@ -1,11 +1,12 @@
+import { NameSpace } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { toggleSorts } from '../../store/app-process/app-process.slice';
 import SortVarients from '../sort-variants/sort-varients';
 
 export default function Sorts(): JSX.Element {
   const dispatch = useAppDispatch();
-  const isSortsOpen = useAppSelector((state) => state.APP.isSortsOpen);
-  const sortType = useAppSelector((state) => state.DATA.sortType);
+  const isSortsOpen = useAppSelector((state) => state[NameSpace.App].isSortsOpen);
+  const sortType = useAppSelector((state) => state[NameSpace.Data].sortType);
 
   return (
     <form className="places__sorting" action="#" method="get">

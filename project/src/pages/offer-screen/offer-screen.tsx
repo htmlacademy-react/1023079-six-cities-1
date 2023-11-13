@@ -10,7 +10,7 @@ import Map from '../../components/map/map';
 import Card from '../../components/card/card';
 import { OfferType } from '../../mocks/offers';
 import HeaderNav from '../../components/header-nav/header-nav';
-import { AppRoutes, AuthorizationsStatus } from '../../consts';
+import { AppRoutes, AuthorizationsStatus, NameSpace } from '../../consts';
 import { useAppSelector } from '../../hooks';
 import { api } from '../../store';
 import { CommentData } from '../../types/state';
@@ -24,7 +24,7 @@ type StateType = {
 export default function OfferScreen(): JSX.Element {
   const navigate = useNavigate();
   const { id } = useParams();
-  const status = useAppSelector((state) => state.USER.authorizationStatus);
+  const status = useAppSelector((state) => state[NameSpace.User].authorizationStatus);
 
   const [offerData, setOfferData] = useState<StateType>({
     offer: undefined,

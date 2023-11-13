@@ -1,10 +1,10 @@
 import { memo } from 'react';
-import { CITIES_LIST } from '../../consts';
+import { CITIES_LIST, NameSpace } from '../../consts';
 import { useAppDispatch, useAppSelector} from '../../hooks';
 import { changeCity } from '../../store/data-process/data-process.slice';
 
 function CitiesList(): JSX.Element {
-  const choosenCity = useAppSelector((state) => state.DATA.cityName);
+  const choosenCity = useAppSelector((state) => state[NameSpace.Data].cityName);
   const dispatch = useAppDispatch();
 
   const getCitiesList = () => (

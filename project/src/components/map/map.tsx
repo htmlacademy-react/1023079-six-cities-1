@@ -1,9 +1,10 @@
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { MutableRefObject, useRef, useEffect, memo } from 'react';
+import { MutableRefObject, useRef, useEffect, memo, useMemo } from 'react';
 import useMap from '../../hooks/useMap';
 import { useAppSelector } from '../../hooks';
 import { OfferType } from '../../mocks/offers';
+import { NameSpace } from '../../consts';
 
 type MapProps = {
   offersInNeighbourhood?: OfferType[];
@@ -11,15 +12,17 @@ type MapProps = {
 };
 
 function Map({ offersInNeighbourhood, currentOffer }: MapProps) {
-  const allOffers = useAppSelector((state) => state.DATA.allOffers);
-  const cityName = useAppSelector((state) => state.DATA.cityName);
-  const offersForCurrentCity = allOffers.filter((offer) => offer.city.name === cityName);
-  const city = offersForCurrentCity[0].city;
+  const allOffers = useAppSelector((state) => state[NameSpace.Data].allOffers);
+  const cityName = useAppSelector((state) => state[NameSpace.Data].cityName);
   const mapRef = useRef<HTMLDivElement | null>(null);
-  const map = useMap(city, mapRef as MutableRefObject<HTMLElement>);
   const markersRef = useRef<leaflet.Marker[]>([]);
-  const offers = offersInNeighbourhood ? offersInNeighbourhood : offersForCurrentCity;
-  const selectedOfferId = useAppSelector((state) => state.APP.selectedOfferId);
+  const selectedOfferId = useAppSelector((state) => state[NameSpace.App].selectedOfferId);
+
+  const offersForCurrentCity = useMemo(() => allOffers.filter((offer) => offer.city.name === cityName), [allOffers, cityName]);
+  const city = useMemo(() => offersForCurrentCity.length ? offersForCurrentCity[0].city : allOffers[0].city, [offersForCurrentCity, allOffers]);
+  const offers = useMemo(() => offersInNeighbourhood ? offersInNeighbourhood : offersForCurrentCity, [offersInNeighbourhood, offersForCurrentCity]);
+
+  const map = useMap(city, mapRef as MutableRefObject<HTMLElement>);
 
 
   const defaultCustomIcon = leaflet.icon({

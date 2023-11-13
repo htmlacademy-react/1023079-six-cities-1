@@ -3,10 +3,11 @@ import Logo from '../../components/logo/logo';
 import React from 'react';
 import { useAppSelector } from '../../hooks';
 import HeaderNav from '../../components/header-nav/header-nav';
+import { NameSpace } from '../../consts';
 
 function CurrentCityOffersList(): JSX.Element {
 
-  const offers = useAppSelector((state) => state.DATA.offersForCurrentCity);
+  const offers = useAppSelector((state) => state[NameSpace.Data].offersForCurrentCity);
 
   return (
     <React.Fragment>
@@ -70,7 +71,7 @@ function CurrentCityOffersList(): JSX.Element {
 }
 
 export default function FavoritesScreen(): JSX.Element {
-  const offers = useAppSelector((state) => state.DATA.allOffers);
+  const offers = useAppSelector((state) => state[NameSpace.Data].allOffers);
   const offersCityNames: string[] = offers.map((offer) => offer.city.name);
   const uniqueCityNames: string[] = Array.from(new Set(offersCityNames));
 

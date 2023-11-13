@@ -1,10 +1,10 @@
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { SORT_VARIANTS } from '../../consts';
+import { NameSpace, SORT_VARIANTS } from '../../consts';
 import { changeSortType } from '../../store/data-process/data-process.slice';
 import { toggleSorts } from '../../store/app-process/app-process.slice';
 
 export default function SortVarients(): JSX.Element {
-  const selectedSortType = useAppSelector((state) => state.DATA.sortType);
+  const selectedSortType = useAppSelector((state) => state[NameSpace.Data].sortType);
   const dispatch = useAppDispatch();
 
   const changeSortHandler = (variant: string) => {
