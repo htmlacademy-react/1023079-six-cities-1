@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { OfferType } from '../../mocks/offers';
 import { NameSpace } from '../../consts';
-import { fetchOffersAction } from '../api-actions';
+import { fetchOffersAction, loadFavoriteOffers } from '../api-actions';
 
 type InitalStateType = {
   cityName: string;
@@ -10,6 +10,7 @@ type InitalStateType = {
   sortType: string;
   isOffersLoading: boolean;
   error: string | null;
+  favoriteOffers: OfferType[];
 };
 
 const initialState: InitalStateType = {
@@ -18,7 +19,8 @@ const initialState: InitalStateType = {
   offersForCurrentCity: [],
   sortType: 'Popular',
   isOffersLoading: false,
-  error: null
+  error: null,
+  favoriteOffers: []
 };
 
 export const dataProcess = createSlice({
@@ -64,6 +66,9 @@ export const dataProcess = createSlice({
       .addCase(fetchOffersAction.fulfilled, (state, action) => {
         state.allOffers = action.payload;
         state.isOffersLoading = false;
+      })
+      .addCase(loadFavoriteOffers.fulfilled, (state, action) => {
+        state.favoriteOffers = action.payload;
       });
   },
 });

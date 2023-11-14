@@ -1,31 +1,42 @@
 import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
 import React from 'react';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import HeaderNav from '../../components/header-nav/header-nav';
 import { NameSpace } from '../../consts';
+import { OfferType } from '../../mocks/offers';
+import { api } from '../../store';
+import { loadFavoriteOffers } from '../../store/api-actions';
+import { Link } from 'react-router-dom';
+import { getRating } from '../../utils';
 
-function CurrentCityOffersList(): JSX.Element {
+function CurrentCityOffersList({offers, cityName}: {offers: OfferType[]; cityName: string}): JSX.Element {
+  const dispatch = useAppDispatch();
+  const offersForCity = offers.filter((offer) => offer.city.name === cityName);
 
-  const offers = useAppSelector((state) => state[NameSpace.Data].offersForCurrentCity);
+  const bookmarkClickHandler = async (id: number) => {
+    await api.post(`/favorite/${id}/0}`);
+    dispatch(loadFavoriteOffers());
+  };
 
   return (
     <React.Fragment>
-      {offers.map((offer) => (
+      {offersForCity.map((offer) => (
         <article className="favorites__card place-card" key={offer.id}>
+          {offer.isPremium &&
           <div className="place-card__mark">
-            {offer.isPremium && <span>Premium</span>}
-          </div>
+            <span>Premium</span>
+          </div>}
           <div className="favorites__image-wrapper place-card__image-wrapper">
-            <a href="#">
+            <Link to={`/offer/${offer.id}`}>
               <img
                 className="place-card__image"
-                src='img/apartment-02.jpg'
+                src={offer.previewImage}
                 width="150"
                 height="110"
                 alt="Place"
               />
-            </a>
+            </Link>
           </div>
           <div className="favorites__card-info place-card__info">
             <div className="place-card__price-wrapper">
@@ -40,6 +51,7 @@ function CurrentCityOffersList(): JSX.Element {
               <button
                 className="place-card__bookmark-button place-card__bookmark-button--active button"
                 type="button"
+                onClick={() => void bookmarkClickHandler(offer.id)}
               >
                 <svg
                   className="place-card__bookmark-icon"
@@ -55,12 +67,12 @@ function CurrentCityOffersList(): JSX.Element {
             </div>
             <div className="place-card__rating rating">
               <div className="place-card__stars rating__stars">
-                <span style={{ width: '80%' }}></span>
+                <span style={getRating(offer.rating)}></span>
                 <span className="visually-hidden">Rating</span>
               </div>
             </div>
             <h2 className="place-card__name">
-              <a href="#">{offer.description}</a>
+              <Link to={`/offer/${offer.id}`}>{offer.description}</Link>
             </h2>
             <p className="place-card__type">{offer.type}</p>
           </div>
@@ -71,7 +83,7 @@ function CurrentCityOffersList(): JSX.Element {
 }
 
 export default function FavoritesScreen(): JSX.Element {
-  const offers = useAppSelector((state) => state[NameSpace.Data].allOffers);
+  const offers = useAppSelector((state) => state[NameSpace.Data].favoriteOffers);
   const offersCityNames: string[] = offers.map((offer) => offer.city.name);
   const uniqueCityNames: string[] = Array.from(new Set(offersCityNames));
 
@@ -110,7 +122,7 @@ export default function FavoritesScreen(): JSX.Element {
                     </div>
                   </div>
                   <div className="favorites__places">
-                    <CurrentCityOffersList />
+                    <CurrentCityOffersList offers={offers} cityName={cityName}/>
                   </div>
                 </li>
               ))}

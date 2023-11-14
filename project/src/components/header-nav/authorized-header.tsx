@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
-import { AppRoutes } from '../../consts';
-import { useAppDispatch } from '../../hooks';
+import { AppRoutes, NameSpace } from '../../consts';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/user-process/user-process.slice';
 
 export default function AuthorizedHeader(): JSX.Element {
   const dispatch = useAppDispatch();
+  const favoritesCount = useAppSelector((state) => state[NameSpace.Data].favoriteOffers.length);
   const user = localStorage.getItem('user');
   const logoutHandler = () => {
     dispatch(logoutAction());
@@ -20,7 +21,7 @@ export default function AuthorizedHeader(): JSX.Element {
         <span className="header__user-name user__name">
           {user}
         </span>
-        <span className="header__favorite-count">3</span>
+        <span className="header__favorite-count">{favoritesCount}</span>
       </Link>
       <a className="header__nav-link" href="#">
         <span

@@ -11,9 +11,10 @@ import Card from '../../components/card/card';
 import { OfferType } from '../../mocks/offers';
 import HeaderNav from '../../components/header-nav/header-nav';
 import { AppRoutes, AuthorizationsStatus, NameSpace } from '../../consts';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { api } from '../../store';
 import { CommentData } from '../../types/state';
+import { loadFavoriteOffers } from '../../store/api-actions';
 
 type StateType = {
   offer: OfferType | undefined;
@@ -23,6 +24,7 @@ type StateType = {
 
 export default function OfferScreen(): JSX.Element {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { id } = useParams();
   const status = useAppSelector((state) => state[NameSpace.User].authorizationStatus);
 
@@ -81,6 +83,15 @@ export default function OfferScreen(): JSX.Element {
         </div>
       ));
 
+    const bookmarkClassName = offer.isFavorite ? 'property__bookmark-button property__bookmark-button--active button' : 'property__bookmark-button button';
+
+    const bookmarkClickHandler = async () => {
+      const isFavoriteStatus = offer.isFavorite ? 0 : 1;
+      const {data} = await api.post<OfferType>(`/favorite/${offer.id}/${isFavoriteStatus}`);
+      dispatch(loadFavoriteOffers());
+      setOfferData((prevData) => ({...prevData, offer: data}));
+    };
+
     return (
       <div className="page">
         <Helmet>
@@ -116,7 +127,8 @@ export default function OfferScreen(): JSX.Element {
                 <div className="property__name-wrapper">
                   <h1 className="property__name">{offer.title}</h1>
                   <button
-                    className="property__bookmark-button button"
+                    onClick={() => void bookmarkClickHandler()}
+                    className={bookmarkClassName}
                     type="button"
                   >
                     <svg
@@ -215,6 +227,8 @@ export default function OfferScreen(): JSX.Element {
                     img={neighbourhoodOffer.previewImage}
                     type={neighbourhoodOffer.type}
                     description={neighbourhoodOffer.description}
+                    isFavorite={neighbourhoodOffer.isFavorite}
+                    isPremium={neighbourhoodOffer.isPremium}
                   />
                 </article>
               )) : null}

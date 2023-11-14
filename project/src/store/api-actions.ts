@@ -9,7 +9,6 @@ export const fetchOffersAction = createAsyncThunk<
   OfferType[],
   undefined,
   {
-    dispatch: AppDispatchType;
     extra: AxiosInstance;
   }
 >('loadOffers', async (_arg, { extra: api }) => {
@@ -21,7 +20,6 @@ export const checkAuthAction = createAsyncThunk<
   void,
   undefined,
   {
-    dispatch: AppDispatchType;
     extra: AxiosInstance;
   }
 >('checkAuthAction', async (_arg, { extra: api }) => {
@@ -49,4 +47,15 @@ export const loginAction = createAsyncThunk<
 
     return Promise.reject();
   }
+});
+
+export const loadFavoriteOffers = createAsyncThunk<
+  OfferType[],
+  undefined,
+  {
+    extra: AxiosInstance;
+  }
+>('loadFavoriteOffers', async (_arg, {extra: api}) => {
+  const {data} = await api.get<OfferType[]>('/favorite');
+  return data;
 });
