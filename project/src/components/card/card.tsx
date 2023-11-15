@@ -1,9 +1,10 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getRating } from '../../utils';
 import { memo, useEffect, useState } from 'react';
 import { api } from '../../store';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loadFavoriteOffers } from '../../store/api-actions';
+import { AppRoutes, AuthorizationsStatus, NameSpace } from '../../consts';
 
 type CardProps = {
   price: number;
@@ -31,6 +32,8 @@ function Card({
   isPremium
 }: CardProps): JSX.Element {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const status = useAppSelector((state) => state[NameSpace.User].authorizationStatus);
   const [isFavoriteChecked, setIsFavoriteChecked] = useState(isFavorite);
 
   useEffect(() => {
@@ -38,9 +41,13 @@ function Card({
   }, [isFavoriteChecked]);
 
   const bookmarkClickHandler = async () => {
-    const status = isFavoriteChecked ? 0 : 1;
-    await api.post(`/favorite/${id}/${status}`);
-    setIsFavoriteChecked((prevState) => !prevState);
+    if(status === AuthorizationsStatus.Auth) {
+      const isFavoriteStatus = isFavoriteChecked ? 0 : 1;
+      await api.post(`/favorite/${id}/${isFavoriteStatus}`);
+      setIsFavoriteChecked((prevState) => !prevState);
+    } else {
+      navigate(AppRoutes.Login);
+    }
   };
 
   const bookmarkClassName = isFavoriteChecked ? 'place-card__bookmark-button place-card__bookmark-button--active button' : 'place-card__bookmark-button button';

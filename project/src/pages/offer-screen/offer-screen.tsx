@@ -86,10 +86,14 @@ export default function OfferScreen(): JSX.Element {
     const bookmarkClassName = offer.isFavorite ? 'property__bookmark-button property__bookmark-button--active button' : 'property__bookmark-button button';
 
     const bookmarkClickHandler = async () => {
-      const isFavoriteStatus = offer.isFavorite ? 0 : 1;
-      const {data} = await api.post<OfferType>(`/favorite/${offer.id}/${isFavoriteStatus}`);
-      dispatch(loadFavoriteOffers());
-      setOfferData((prevData) => ({...prevData, offer: data}));
+      if(status === AuthorizationsStatus.Auth) {
+        const isFavoriteStatus = offer.isFavorite ? 0 : 1;
+        const {data} = await api.post<OfferType>(`/favorite/${offer.id}/${isFavoriteStatus}`);
+        dispatch(loadFavoriteOffers());
+        setOfferData((prevData) => ({...prevData, offer: data}));
+      } else {
+        navigate(AppRoutes.Login);
+      }
     };
 
     return (
