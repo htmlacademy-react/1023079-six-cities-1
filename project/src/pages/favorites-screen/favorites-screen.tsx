@@ -5,8 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import HeaderNav from '../../components/header-nav/header-nav';
 import { NameSpace } from '../../consts';
 import { OfferType } from '../../mocks/offers';
-import { api } from '../../store';
-import { loadFavoriteOffers } from '../../store/api-actions';
+import { changeFavoriteStatusForOffer, loadFavoriteOffers } from '../../store/api-actions';
 import { Link } from 'react-router-dom';
 import { getRating } from '../../utils';
 
@@ -15,7 +14,7 @@ function CurrentCityOffersList({offers, cityName}: {offers: OfferType[]; cityNam
   const offersForCity = offers.filter((offer) => offer.city.name === cityName);
 
   const bookmarkClickHandler = async (id: number) => {
-    await api.post(`/favorite/${id}/0}`);
+    await dispatch(changeFavoriteStatusForOffer({id, status: 0}));
     dispatch(loadFavoriteOffers());
   };
 

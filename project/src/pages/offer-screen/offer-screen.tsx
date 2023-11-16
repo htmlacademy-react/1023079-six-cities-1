@@ -14,7 +14,7 @@ import { AppRoutes, AuthorizationsStatus, NameSpace } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { api } from '../../store';
 import { CommentData } from '../../types/state';
-import { loadFavoriteOffers } from '../../store/api-actions';
+import { changeFavoriteStatusForOffer, loadFavoriteOffers } from '../../store/api-actions';
 
 type StateType = {
   offer: OfferType | undefined;
@@ -34,12 +34,19 @@ export default function OfferScreen(): JSX.Element {
     offersInNeighbourhood: []
   });
 
+  const [isFavoriteChecked, setIsFavoriteChecked] = useState(false);
+
+  useEffect(() => {
+    dispatch(loadFavoriteOffers());
+  }, [isFavoriteChecked]);
+
   useEffect(() => {
     if(id) {
       const fetchOffer = async () => {
         try {
           const {data} = await api.get<OfferType>(`https://12.react.pages.academy/six-cities/hotels/${id}`);
           setOfferData((prevData) => ({...prevData, offer: data}));
+          setIsFavoriteChecked(data.isFavorite);
         } catch (error) {
           navigate(`${AppRoutes.Main}*`);
         }
@@ -83,14 +90,15 @@ export default function OfferScreen(): JSX.Element {
         </div>
       ));
 
-    const bookmarkClassName = offer.isFavorite ? 'property__bookmark-button property__bookmark-button--active button' : 'property__bookmark-button button';
+    const bookmarkClassName = isFavoriteChecked ? 'property__bookmark-button property__bookmark-button--active button' : 'property__bookmark-button button';
 
     const bookmarkClickHandler = async () => {
       if(status === AuthorizationsStatus.Auth) {
-        const isFavoriteStatus = offer.isFavorite ? 0 : 1;
-        const {data} = await api.post<OfferType>(`/favorite/${offer.id}/${isFavoriteStatus}`);
-        dispatch(loadFavoriteOffers());
-        setOfferData((prevData) => ({...prevData, offer: data}));
+        const isFavoriteStatus = isFavoriteChecked ? 0 : 1;
+        const result = await dispatch(changeFavoriteStatusForOffer({id: offer.id, status: isFavoriteStatus}));
+        if(result.payload && typeof result.payload === 'object' && 'id' in result.payload) {
+          setIsFavoriteChecked((prevState) => !prevState);
+        }
       } else {
         navigate(AppRoutes.Login);
       }

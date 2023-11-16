@@ -18,3 +18,8 @@ export type CommentData = {
   rating: number;
   comment: string;
 }
+
+export type StatusOfferInfo = {
+  id: number;
+  status: number;
+};

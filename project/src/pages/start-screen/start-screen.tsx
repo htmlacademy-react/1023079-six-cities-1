@@ -22,7 +22,7 @@ function StartScreen(): JSX.Element {
     dispatch(changeSortType(sortType));
   }, [offersForCurrentCity]);
 
-  const getContentForPage = useMemo(() => offersForCurrentCity.length ? <ContentForCity/> : <EmptyContentForCity />, [allOffers, cityName]);
+  const contentForPage = useMemo(() => offersForCurrentCity.length ? <ContentForCity/> : <EmptyContentForCity />, [allOffers, cityName]);
 
   return (
     <div className="page page--gray page--main">
@@ -53,7 +53,7 @@ function StartScreen(): JSX.Element {
             </ul>
           </section>
         </div>
-        {getContentForPage}
+        {contentForPage}
       </main>
     </div>
   );

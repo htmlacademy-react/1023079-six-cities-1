@@ -1,9 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { getRating } from '../../utils';
 import { memo, useEffect, useState } from 'react';
-import { api } from '../../store';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { loadFavoriteOffers } from '../../store/api-actions';
+import { changeFavoriteStatusForOffer, loadFavoriteOffers } from '../../store/api-actions';
 import { AppRoutes, AuthorizationsStatus, NameSpace } from '../../consts';
 
 type CardProps = {
@@ -43,8 +42,10 @@ function Card({
   const bookmarkClickHandler = async () => {
     if(status === AuthorizationsStatus.Auth) {
       const isFavoriteStatus = isFavoriteChecked ? 0 : 1;
-      await api.post(`/favorite/${id}/${isFavoriteStatus}`);
-      setIsFavoriteChecked((prevState) => !prevState);
+      const result = await dispatch(changeFavoriteStatusForOffer({id, status: isFavoriteStatus}));
+      if(result.payload && typeof result.payload === 'object' && 'id' in result.payload) {
+        setIsFavoriteChecked((prevState) => !prevState);
+      }
     } else {
       navigate(AppRoutes.Login);
     }
