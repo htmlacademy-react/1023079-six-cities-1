@@ -13,9 +13,9 @@ function CurrentCityOffersList({offers, cityName}: {offers: OfferType[]; cityNam
   const dispatch = useAppDispatch();
   const offersForCity = offers.filter((offer) => offer.city.name === cityName);
 
-  const bookmarkClickHandler = async (id: number) => {
-    await dispatch(changeFavoriteStatusForOffer({id, status: 0}));
-    dispatch(loadFavoriteOffers());
+  const bookmarkClickHandler = (id: number) => {
+    dispatch(changeFavoriteStatusForOffer({id, status: 0}))
+      .then(() => dispatch(loadFavoriteOffers()));
   };
 
   return (
@@ -50,7 +50,7 @@ function CurrentCityOffersList({offers, cityName}: {offers: OfferType[]; cityNam
               <button
                 className="place-card__bookmark-button place-card__bookmark-button--active button"
                 type="button"
-                onClick={() => void bookmarkClickHandler(offer.id)}
+                onClick={() => bookmarkClickHandler(offer.id)}
               >
                 <svg
                   className="place-card__bookmark-icon"

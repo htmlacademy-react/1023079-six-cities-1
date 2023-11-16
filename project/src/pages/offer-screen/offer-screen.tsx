@@ -91,13 +91,11 @@ export default function OfferScreen(): JSX.Element {
 
     const bookmarkClassName = isFavoriteChecked ? 'property__bookmark-button property__bookmark-button--active button' : 'property__bookmark-button button';
 
-    const bookmarkClickHandler = async () => {
+    const bookmarkClickHandler = () => {
       if(status === AuthorizationsStatus.Auth) {
         const isFavoriteStatus = isFavoriteChecked ? 0 : 1;
-        const result = await dispatch(changeFavoriteStatusForOffer({id: offer.id, status: isFavoriteStatus}));
-        if(result.payload && typeof result.payload === 'object' && 'id' in result.payload) {
-          setIsFavoriteChecked((prevState) => !prevState);
-        }
+        dispatch(changeFavoriteStatusForOffer({id: offer.id, status: isFavoriteStatus}))
+          .then(() => setIsFavoriteChecked((prevState) => !prevState));
       } else {
         navigate(AppRoutes.Login);
       }
