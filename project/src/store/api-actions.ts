@@ -1,7 +1,6 @@
 import { AxiosError, AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AppDispatchType, AuthData, UserData } from '../types/state';
-import { OfferType } from '../mocks/offers';
+import { AppDispatchType, AuthData, OfferType, StatusOfferInfo, UserData } from '../types/state';
 import { setError } from './user-process/user-process.slice';
 import { saveToken } from '../token';
 
@@ -9,7 +8,6 @@ export const fetchOffersAction = createAsyncThunk<
   OfferType[],
   undefined,
   {
-    dispatch: AppDispatchType;
     extra: AxiosInstance;
   }
 >('loadOffers', async (_arg, { extra: api }) => {
@@ -21,7 +19,6 @@ export const checkAuthAction = createAsyncThunk<
   void,
   undefined,
   {
-    dispatch: AppDispatchType;
     extra: AxiosInstance;
   }
 >('checkAuthAction', async (_arg, { extra: api }) => {
@@ -47,6 +44,36 @@ export const loginAction = createAsyncThunk<
       dispatch(setError(error.message));
     }
 
+    return Promise.reject();
+  }
+});
+
+export const loadFavoriteOffers = createAsyncThunk<
+  OfferType[],
+  undefined,
+  {
+    extra: AxiosInstance;
+  }
+>('loadFavoriteOffers', async (_arg, {extra: api}) => {
+  const {data} = await api.get<OfferType[]>('/favorite');
+  return data;
+});
+
+export const changeFavoriteStatusForOffer = createAsyncThunk<
+  OfferType,
+  StatusOfferInfo,
+  {
+    extra: AxiosInstance;
+    dispatch: AppDispatchType;
+  }
+>('changeFavoriteStatusForOffer', async({id, status}, {dispatch, extra: api}) => {
+  try {
+    const {data} = await api.post<OfferType>(`/favorite/${id}/${status}}`);
+    return data;
+  } catch (error) {
+    if(error instanceof AxiosError && error.message) {
+      dispatch(setError(error.message));
+    }
     return Promise.reject();
   }
 });

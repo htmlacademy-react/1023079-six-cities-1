@@ -1,4 +1,4 @@
-import { OfferType } from './mocks/offers';
+import { OfferType } from './types/state';
 import { store } from './store';
 
 export const getOfferOnPage = (id: number): OfferType => {

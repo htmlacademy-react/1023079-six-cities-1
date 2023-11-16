@@ -9,9 +9,12 @@ type PrivateRouteProps = {
 export default function PrivateRoute({ children}: PrivateRouteProps): JSX.Element {
   const status = useAppSelector((state) => state[NameSpace.User].authorizationStatus);
 
-  return(
-    status === AuthorizationsStatus.Auth
-      ? children
-      : <Navigate to={AppRoutes.Login} />
-  );
+  switch(status) {
+    case AuthorizationsStatus.Auth:
+      return children;
+    case AuthorizationsStatus.NoAuth:
+      return <Navigate to={AppRoutes.Login} />;
+    default:
+      return <h1><b>Loading, please wait...</b></h1>;
+  }
 }

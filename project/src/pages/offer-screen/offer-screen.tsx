@@ -2,18 +2,18 @@ import Logo from '../../components/logo/logo';
 import { Helmet } from 'react-helmet-async';
 import { CommentForm } from '../../components/comment-form/comment-form';
 import ReviewsList from '../../components/reviews-list/reviews-list';
-import { ReviewType } from '../../mocks/reviews';
+import { OfferType, ReviewType } from '../../types/state';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getRating} from '../../utils';
 import Map from '../../components/map/map';
 import Card from '../../components/card/card';
-import { OfferType } from '../../mocks/offers';
 import HeaderNav from '../../components/header-nav/header-nav';
 import { AppRoutes, AuthorizationsStatus, NameSpace } from '../../consts';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { api } from '../../store';
 import { CommentData } from '../../types/state';
+import { changeFavoriteStatusForOffer, loadFavoriteOffers } from '../../store/api-actions';
 
 type StateType = {
   offer: OfferType | undefined;
@@ -23,6 +23,7 @@ type StateType = {
 
 export default function OfferScreen(): JSX.Element {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { id } = useParams();
   const status = useAppSelector((state) => state[NameSpace.User].authorizationStatus);
 
@@ -32,12 +33,19 @@ export default function OfferScreen(): JSX.Element {
     offersInNeighbourhood: []
   });
 
+  const [isFavoriteChecked, setIsFavoriteChecked] = useState(false);
+
+  useEffect(() => {
+    dispatch(loadFavoriteOffers());
+  }, [isFavoriteChecked]);
+
   useEffect(() => {
     if(id) {
       const fetchOffer = async () => {
         try {
           const {data} = await api.get<OfferType>(`https://12.react.pages.academy/six-cities/hotels/${id}`);
           setOfferData((prevData) => ({...prevData, offer: data}));
+          setIsFavoriteChecked(data.isFavorite);
         } catch (error) {
           navigate(`${AppRoutes.Main}*`);
         }
@@ -81,6 +89,18 @@ export default function OfferScreen(): JSX.Element {
         </div>
       ));
 
+    const bookmarkClassName = isFavoriteChecked ? 'property__bookmark-button property__bookmark-button--active button' : 'property__bookmark-button button';
+
+    const bookmarkClickHandler = () => {
+      if(status === AuthorizationsStatus.Auth) {
+        const isFavoriteStatus = isFavoriteChecked ? 0 : 1;
+        dispatch(changeFavoriteStatusForOffer({id: offer.id, status: isFavoriteStatus}))
+          .then(() => setIsFavoriteChecked((prevState) => !prevState));
+      } else {
+        navigate(AppRoutes.Login);
+      }
+    };
+
     return (
       <div className="page">
         <Helmet>
@@ -116,7 +136,8 @@ export default function OfferScreen(): JSX.Element {
                 <div className="property__name-wrapper">
                   <h1 className="property__name">{offer.title}</h1>
                   <button
-                    className="property__bookmark-button button"
+                    onClick={() => void bookmarkClickHandler()}
+                    className={bookmarkClassName}
                     type="button"
                   >
                     <svg
@@ -215,6 +236,8 @@ export default function OfferScreen(): JSX.Element {
                     img={neighbourhoodOffer.previewImage}
                     type={neighbourhoodOffer.type}
                     description={neighbourhoodOffer.description}
+                    isFavorite={neighbourhoodOffer.isFavorite}
+                    isPremium={neighbourhoodOffer.isPremium}
                   />
                 </article>
               )) : null}

@@ -4,8 +4,9 @@ import { useAppDispatch, useAppSelector} from '../../hooks';
 import { changeCity } from '../../store/data-process/data-process.slice';
 
 function CitiesList(): JSX.Element {
-  const choosenCity = useAppSelector((state) => state[NameSpace.Data].cityName);
   const dispatch = useAppDispatch();
+  const choosenCity = useAppSelector((state) => state[NameSpace.Data].cityName);
+
 
   const getCitiesList = () => (
     CITIES_LIST.map((cityName) => {

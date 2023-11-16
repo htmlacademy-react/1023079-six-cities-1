@@ -1,14 +1,29 @@
-import OfferList from '../../components/offers-list/offers-list';
 import Logo from '../../components/logo/logo';
 import { Helmet } from 'react-helmet-async';
-import Map from '../../components/map/map';
 import HeaderNav from '../../components/header-nav/header-nav';
 import CitiesList from '../../components/cities-list/cities-list';
-import OfferListHeader from '../../components/offer-list-header/offer-list-header';
-import { memo } from 'react';
-import Sorts from '../../components/sorts/sorts';
+import { memo, useEffect, useMemo } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { NameSpace } from '../../consts';
+import ContentForCity from '../../components/content-for-city/content-for-city';
+import EmptyContentForCity from '../../components/empty-content-for-city/empty-content-for-city';
+import { changeSortType, setOffersForSelectedCity } from '../../store/data-process/data-process.slice';
 
 function StartScreen(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const allOffers = useAppSelector((state) => state[NameSpace.Data].allOffers);
+  const cityName = useAppSelector((state) => state[NameSpace.Data].cityName);
+  const sortType = useAppSelector((state) => state[NameSpace.Data].sortType);
+
+  const offersForCurrentCity = useMemo(() => allOffers.filter((offer) => offer.city.name === cityName), [allOffers, cityName]);
+
+  useEffect(() => {
+    dispatch(setOffersForSelectedCity(offersForCurrentCity));
+    dispatch(changeSortType(sortType));
+  }, [offersForCurrentCity]);
+
+  const contentForPage = useMemo(() => offersForCurrentCity.length ? <ContentForCity/> : <EmptyContentForCity />, [allOffers, cityName]);
+
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -38,23 +53,7 @@ function StartScreen(): JSX.Element {
             </ul>
           </section>
         </div>
-        <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <OfferListHeader />
-              <Sorts />
-              <div className="cities__places-list places__list tabs__content">
-                <OfferList />
-              </div>
-            </section>
-            <div className="cities__right-section">
-              <section className="cities__map map">
-                <Map />
-              </section>
-            </div>
-          </div>
-        </div>
+        {contentForPage}
       </main>
     </div>
   );
