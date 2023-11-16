@@ -1,5 +1,5 @@
 import Card from '../card/card';
-import { OfferType } from '../../mocks/offers';
+import { OfferType } from '../../types/state';
 import React, { memo } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setSelectedOfferId } from '../../store/app-process/app-process.slice';

@@ -1,4 +1,4 @@
-import { ReviewType } from '../../mocks/reviews';
+import { ReviewType } from '../../types/state';
 import { getRating } from '../../utils';
 
 type ReviewProps = {

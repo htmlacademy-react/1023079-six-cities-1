@@ -3,7 +3,7 @@ import 'leaflet/dist/leaflet.css';
 import { MutableRefObject, useRef, useEffect, memo, useMemo } from 'react';
 import useMap from '../../hooks/useMap';
 import { useAppSelector } from '../../hooks';
-import { OfferType } from '../../mocks/offers';
+import { OfferType } from '../../types/state';
 import { NameSpace } from '../../consts';
 
 type MapProps = {

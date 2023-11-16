@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { OfferType } from '../../mocks/offers';
+import { OfferType } from '../../types/state';
 import { NameSpace } from '../../consts';
 import { fetchOffersAction, loadFavoriteOffers } from '../api-actions';
 

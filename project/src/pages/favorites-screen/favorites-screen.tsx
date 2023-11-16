@@ -4,10 +4,10 @@ import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import HeaderNav from '../../components/header-nav/header-nav';
 import { NameSpace } from '../../consts';
-import { OfferType } from '../../mocks/offers';
 import { changeFavoriteStatusForOffer, loadFavoriteOffers } from '../../store/api-actions';
 import { Link } from 'react-router-dom';
 import { getRating } from '../../utils';
+import { OfferType } from '../../types/state';
 
 function CurrentCityOffersList({offers, cityName}: {offers: OfferType[]; cityName: string}): JSX.Element {
   const dispatch = useAppDispatch();

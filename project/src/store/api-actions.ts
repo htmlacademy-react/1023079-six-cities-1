@@ -1,7 +1,6 @@
 import { AxiosError, AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AppDispatchType, AuthData, StatusOfferInfo, UserData } from '../types/state';
-import { OfferType } from '../mocks/offers';
+import { AppDispatchType, AuthData, OfferType, StatusOfferInfo, UserData } from '../types/state';
 import { setError } from './user-process/user-process.slice';
 import { saveToken } from '../token';
 
