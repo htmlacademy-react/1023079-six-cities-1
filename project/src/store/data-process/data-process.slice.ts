@@ -11,6 +11,7 @@ type InitalStateType = {
   isOffersLoading: boolean;
   error: string | null;
   favoriteOffers: OfferType[];
+  localStorageFavorites: OfferType[];
 };
 
 const initialState: InitalStateType = {
@@ -20,7 +21,8 @@ const initialState: InitalStateType = {
   sortType: 'Popular',
   isOffersLoading: false,
   error: null,
-  favoriteOffers: []
+  favoriteOffers: [],
+  localStorageFavorites: []
 };
 
 export const dataProcess = createSlice({
@@ -53,6 +55,14 @@ export const dataProcess = createSlice({
     },
     setOffersForSelectedCity: (state, action: PayloadAction<OfferType[]>) => {
       state.offersForCurrentCity = action.payload;
+    },
+    changeIsInLocalFavorites: (state, action: PayloadAction<OfferType>) => {
+      const alreadyInLocalFavorites = state.localStorageFavorites.some((offer) => offer.id === action.payload.id);
+      if(alreadyInLocalFavorites) {
+        state.localStorageFavorites = state.localStorageFavorites.filter((offer) => offer.id !== action.payload.id);
+      } else {
+        state.localStorageFavorites.push(action.payload);
+      }
     }
   },
   extraReducers(builder) {
@@ -69,8 +79,9 @@ export const dataProcess = createSlice({
       })
       .addCase(loadFavoriteOffers.fulfilled, (state, action) => {
         state.favoriteOffers = action.payload;
+        state.localStorageFavorites = action.payload;
       });
   },
 });
 
-export const {changeCity, changeSortType, setOffersForSelectedCity} = dataProcess.actions;
+export const {changeCity, changeSortType, setOffersForSelectedCity, changeIsInLocalFavorites} = dataProcess.actions;

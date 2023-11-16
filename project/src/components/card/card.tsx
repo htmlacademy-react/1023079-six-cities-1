@@ -4,6 +4,7 @@ import { memo, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeFavoriteStatusForOffer, loadFavoriteOffers } from '../../store/api-actions';
 import { AppRoutes, AuthorizationsStatus, NameSpace } from '../../consts';
+import { changeIsInLocalFavorites } from '../../store/data-process/data-process.slice';
 
 type CardProps = {
   price: number;
@@ -33,7 +34,9 @@ function Card({
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const status = useAppSelector((state) => state[NameSpace.User].authorizationStatus);
+  const localFavorites = useAppSelector((state) => state[NameSpace.Data].localStorageFavorites);
   const [isFavoriteChecked, setIsFavoriteChecked] = useState(isFavorite);
+  const offers = useAppSelector((state) => state[NameSpace.Data].offersForCurrentCity);
 
   useEffect(() => {
     dispatch(loadFavoriteOffers());
@@ -43,13 +46,20 @@ function Card({
     if(status === AuthorizationsStatus.Auth) {
       const isFavoriteStatus = isFavoriteChecked ? 0 : 1;
       dispatch(changeFavoriteStatusForOffer({id, status: isFavoriteStatus}))
-        .then(() => setIsFavoriteChecked((prevState) => !prevState));
+        .then(() => {
+          setIsFavoriteChecked((prevState) => !prevState);
+          const offerToAdd = offers.find((offer) => offer.id === id);
+          if(offerToAdd) {
+            dispatch(changeIsInLocalFavorites(offerToAdd));
+          }
+        });
     } else {
       navigate(AppRoutes.Login);
     }
   };
 
-  const bookmarkClassName = isFavoriteChecked ? 'place-card__bookmark-button place-card__bookmark-button--active button' : 'place-card__bookmark-button button';
+  const isInLocalFavorites = localFavorites.some((offer) => offer.id === id);
+  const bookmarkClassName = isFavoriteChecked || isInLocalFavorites ? 'place-card__bookmark-button place-card__bookmark-button--active button' : 'place-card__bookmark-button button';
 
   const scrollToTop = () => {
     window.scrollTo({

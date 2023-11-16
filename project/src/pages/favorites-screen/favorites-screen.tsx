@@ -8,14 +8,18 @@ import { changeFavoriteStatusForOffer, loadFavoriteOffers } from '../../store/ap
 import { Link } from 'react-router-dom';
 import { getRating } from '../../utils';
 import { OfferType } from '../../types/state';
+import { changeIsInLocalFavorites } from '../../store/data-process/data-process.slice';
 
 function CurrentCityOffersList({offers, cityName}: {offers: OfferType[]; cityName: string}): JSX.Element {
   const dispatch = useAppDispatch();
   const offersForCity = offers.filter((offer) => offer.city.name === cityName);
 
-  const bookmarkClickHandler = (id: number) => {
+  const bookmarkClickHandler = (id: number, offer: OfferType) => {
     dispatch(changeFavoriteStatusForOffer({id, status: 0}))
-      .then(() => dispatch(loadFavoriteOffers()));
+      .then(() => {
+        dispatch(loadFavoriteOffers());
+        dispatch(changeIsInLocalFavorites(offer));
+      });
   };
 
   return (
@@ -50,7 +54,7 @@ function CurrentCityOffersList({offers, cityName}: {offers: OfferType[]; cityNam
               <button
                 className="place-card__bookmark-button place-card__bookmark-button--active button"
                 type="button"
-                onClick={() => bookmarkClickHandler(offer.id)}
+                onClick={() => bookmarkClickHandler(offer.id, offer)}
               >
                 <svg
                   className="place-card__bookmark-icon"
