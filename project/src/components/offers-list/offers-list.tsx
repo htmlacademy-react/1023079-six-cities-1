@@ -28,7 +28,7 @@ function OfferList(): JSX.Element {
           img={offer.previewImage}
           type={offer.type}
           isFavorite={offer.isFavorite}
-          description={offer.description}
+          title={offer.title}
           isPremium={offer.isPremium}
           onMouseOver={() => onMouseOverHandler(offer.id)}
           onMouseLeave={onMouseLeave}
