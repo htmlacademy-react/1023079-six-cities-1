@@ -4,7 +4,7 @@ import { CommentForm } from '../../components/comment-form/comment-form';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import { OfferType, ReviewType } from '../../types/state';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { getRating} from '../../utils';
 import Map from '../../components/map/map';
 import Card from '../../components/card/card';
@@ -26,6 +26,7 @@ export default function OfferScreen(): JSX.Element {
   const dispatch = useAppDispatch();
   const { id } = useParams();
   const status = useAppSelector((state) => state[NameSpace.User].authorizationStatus);
+  const initialized = useRef(false);
 
   const [offerData, setOfferData] = useState<StateType>({
     offer: undefined,
@@ -34,16 +35,10 @@ export default function OfferScreen(): JSX.Element {
   });
 
   const [isFavoriteChecked, setIsFavoriteChecked] = useState(false);
-  const [isFirstRender, setIsFirstRender] = useState(true);
 
   useEffect(() => {
-    if(!isFirstRender) {
-      dispatch(loadFavoriteOffers());
-    }
-  }, [isFavoriteChecked]);
-
-  useEffect(() => {
-    if(id) {
+    if(id && !initialized.current) {
+      initialized.current = true;
       const fetchOffer = async () => {
         try {
           const {data} = await api.get<OfferType>(`https://12.react.pages.academy/six-cities/hotels/${id}`);
@@ -96,10 +91,12 @@ export default function OfferScreen(): JSX.Element {
 
     const bookmarkClickHandler = () => {
       if(status === AuthorizationsStatus.Auth) {
-        setIsFirstRender(false);
         const isFavoriteStatus = isFavoriteChecked ? 0 : 1;
         dispatch(changeFavoriteStatusForOffer({id: offer.id, status: isFavoriteStatus}))
-          .then(() => setIsFavoriteChecked((prevState) => !prevState));
+          .then(() => {
+            setIsFavoriteChecked((prevState) => !prevState);
+            dispatch(loadFavoriteOffers());
+          });
       } else {
         navigate(AppRoutes.Login);
       }

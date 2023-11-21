@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { getRating } from '../../utils';
-import { memo, useEffect, useState } from 'react';
+import { memo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeFavoriteStatusForOffer, loadFavoriteOffers } from '../../store/api-actions';
 import { AppRoutes, AuthorizationsStatus, NameSpace } from '../../consts';
@@ -36,16 +36,7 @@ function Card({
   const status = useAppSelector((state) => state[NameSpace.User].authorizationStatus);
   const localFavorites = useAppSelector((state) => state[NameSpace.Data].localStorageFavorites);
   const [isFavoriteChecked, setIsFavoriteChecked] = useState(isFavorite);
-  const [isFirstRender, setIsFirstRender] = useState(true);
   const offers = useAppSelector((state) => state[NameSpace.Data].offersForCurrentCity);
-
-  useEffect(() => {
-    if(!isFirstRender) {
-      dispatch(loadFavoriteOffers());
-    }
-
-    setIsFirstRender(false);
-  }, [isFavoriteChecked]);
 
   const bookmarkClickHandler = () => {
     if(status === AuthorizationsStatus.Auth) {
@@ -53,6 +44,7 @@ function Card({
       dispatch(changeFavoriteStatusForOffer({id, status: isFavoriteStatus}))
         .then(() => {
           setIsFavoriteChecked((prevState) => !prevState);
+          dispatch(loadFavoriteOffers());
           const offerToAdd = offers.find((offer) => offer.id === id);
           if(offerToAdd) {
             dispatch(changeIsInLocalFavorites(offerToAdd));
