@@ -63,6 +63,11 @@ export default function OfferScreen(): JSX.Element {
       fetchNeighbourhood();
       fetchReviews();
     }
+
+    return (
+      () => {
+        initialized.current = false;
+      });
   }, [id]);
 
   const {offer, offersInNeighbourhood, reviews} = offerData;
