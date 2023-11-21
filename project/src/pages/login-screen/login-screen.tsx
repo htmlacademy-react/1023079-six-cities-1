@@ -25,11 +25,16 @@ export default function LoginScreen(): JSX.Element {
 
   const sendFormHandler = (evt: { preventDefault: () => void }) => {
     evt.preventDefault();
-    const login = loginValue;
-    const password = passwordValue;
+    const hasLetter = /[A-Za-z]/.test(passwordValue);
+    const hasDigit = /\d/.test(passwordValue);
 
-    dispatch(loginAction({ login, password }));
-    navigate(AppRoutes.Main);
+    if(hasLetter && hasDigit) {
+      const login = loginValue;
+      const password = passwordValue;
+
+      dispatch(loginAction({ login, password }));
+      navigate(AppRoutes.Main);
+    }
   };
 
   if(status !== AuthorizationsStatus.Auth) {

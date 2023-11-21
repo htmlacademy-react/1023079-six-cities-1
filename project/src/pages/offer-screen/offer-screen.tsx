@@ -34,9 +34,12 @@ export default function OfferScreen(): JSX.Element {
   });
 
   const [isFavoriteChecked, setIsFavoriteChecked] = useState(false);
+  const [isFirstRender, setIsFirstRender] = useState(true);
 
   useEffect(() => {
-    dispatch(loadFavoriteOffers());
+    if(!isFirstRender) {
+      dispatch(loadFavoriteOffers());
+    }
   }, [isFavoriteChecked]);
 
   useEffect(() => {
@@ -93,6 +96,7 @@ export default function OfferScreen(): JSX.Element {
 
     const bookmarkClickHandler = () => {
       if(status === AuthorizationsStatus.Auth) {
+        setIsFirstRender(false);
         const isFavoriteStatus = isFavoriteChecked ? 0 : 1;
         dispatch(changeFavoriteStatusForOffer({id: offer.id, status: isFavoriteStatus}))
           .then(() => setIsFavoriteChecked((prevState) => !prevState));
@@ -235,7 +239,7 @@ export default function OfferScreen(): JSX.Element {
                     price={neighbourhoodOffer.price}
                     img={neighbourhoodOffer.previewImage}
                     type={neighbourhoodOffer.type}
-                    description={neighbourhoodOffer.description}
+                    title={neighbourhoodOffer.title}
                     isFavorite={neighbourhoodOffer.isFavorite}
                     isPremium={neighbourhoodOffer.isPremium}
                   />

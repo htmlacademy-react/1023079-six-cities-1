@@ -11,7 +11,7 @@ type CardProps = {
   id: number;
   img: string;
   type: string;
-  description: string;
+  title: string;
   onMouseOver?: () => void;
   onMouseLeave?: () => void;
   rating: number;
@@ -24,7 +24,7 @@ function Card({
   rating,
   img,
   type,
-  description,
+  title,
   id,
   isFavorite,
   onMouseOver,
@@ -36,10 +36,15 @@ function Card({
   const status = useAppSelector((state) => state[NameSpace.User].authorizationStatus);
   const localFavorites = useAppSelector((state) => state[NameSpace.Data].localStorageFavorites);
   const [isFavoriteChecked, setIsFavoriteChecked] = useState(isFavorite);
+  const [isFirstRender, setIsFirstRender] = useState(true);
   const offers = useAppSelector((state) => state[NameSpace.Data].offersForCurrentCity);
 
   useEffect(() => {
-    dispatch(loadFavoriteOffers());
+    if(!isFirstRender) {
+      dispatch(loadFavoriteOffers());
+    }
+
+    setIsFirstRender(false);
   }, [isFavoriteChecked]);
 
   const bookmarkClickHandler = () => {
@@ -111,7 +116,7 @@ function Card({
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link onClick={scrollToTop} to={`/offer/${id}`}>{description}</Link>
+          <Link onClick={scrollToTop} to={`/offer/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>
