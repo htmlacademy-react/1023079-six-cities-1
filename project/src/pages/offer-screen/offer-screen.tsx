@@ -50,7 +50,7 @@ export default function OfferScreen(): JSX.Element {
           setOfferData((prevData) => ({...prevData, offer: data}));
           setIsFavoriteChecked(data.isFavorite);
         } catch (error) {
-          navigate(`${AppRoutes.Main}*`);
+          navigate(`${AppRoutes.Main}`);
         }
       };
 
