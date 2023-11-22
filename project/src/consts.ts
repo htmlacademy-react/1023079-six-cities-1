@@ -55,3 +55,18 @@ export const NameSpace = {
   User: 'USER',
   App: 'APP'
 } as const;
+
+export const MAX_REVIEWS_COUNT = 10;
+
+export const URLS = {
+  hotels: 'https://12.react.pages.academy/six-cities/hotels/',
+  comments: 'https://12.react.pages.academy/six-cities/comments/',
+  nearby: '/nearby'
+} as const;
+
+export const SORT_TYPES = {
+  lowToHigh: 'LowToHigh',
+  highToLow: 'HighToLow',
+  topRating: 'TopRating',
+  popular: 'Popular'
+} as const;

@@ -2,6 +2,8 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { OfferType } from '../../types/state';
 import { NameSpace } from '../../consts';
 import { fetchOffersAction, loadFavoriteOffers } from '../api-actions';
+import { SORT_TYPES } from '../../consts';
+import { CITIES_LIST } from '../../consts';
 
 type InitalStateType = {
   cityName: string;
@@ -15,10 +17,10 @@ type InitalStateType = {
 };
 
 const initialState: InitalStateType = {
-  cityName: 'Paris',
+  cityName: CITIES_LIST[0],
   allOffers: [],
   offersForCurrentCity: [],
-  sortType: 'Popular',
+  sortType: SORT_TYPES.popular,
   isOffersLoading: false,
   error: null,
   favoriteOffers: [],
@@ -36,19 +38,19 @@ export const dataProcess = createSlice({
       state.sortType = action.payload;
 
       switch(state.sortType) {
-        case 'LowToHigh':
+        case SORT_TYPES.lowToHigh:
           state.offersForCurrentCity.sort((a, b) => a.price - b.price);
           break;
 
-        case 'HighToLow':
+        case SORT_TYPES.highToLow:
           state.offersForCurrentCity.sort((a, b) => b.price - a.price);
           break;
 
-        case 'TopRating':
+        case SORT_TYPES.topRating:
           state.offersForCurrentCity.sort((a, b) => b.rating - a.rating);
           break;
 
-        case 'Popular':
+        case SORT_TYPES.popular:
           state.offersForCurrentCity = state.allOffers.filter((offer) => offer.city.name === state.cityName);
           break;
       }
