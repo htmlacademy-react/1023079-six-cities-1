@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { api } from '../../store';
 import { CommentData } from '../../types/state';
 import { changeFavoriteStatusForOffer, loadFavoriteOffers } from '../../store/api-actions';
+import { URLS } from '../../consts';
 
 type StateType = {
   offer: OfferType | undefined;
@@ -41,7 +42,7 @@ export default function OfferScreen(): JSX.Element {
       initialized.current = true;
       const fetchOffer = async () => {
         try {
-          const {data} = await api.get<OfferType>(`https://12.react.pages.academy/six-cities/hotels/${id}`);
+          const {data} = await api.get<OfferType>(`${URLS.hotels}${id}`);
           setOfferData((prevData) => ({...prevData, offer: data}));
           setIsFavoriteChecked(data.isFavorite);
         } catch (error) {
@@ -50,12 +51,12 @@ export default function OfferScreen(): JSX.Element {
       };
 
       const fetchNeighbourhood = async () => {
-        const {data} = await api.get<OfferType[]>(`https://12.react.pages.academy/six-cities/hotels/${id}/nearby`);
+        const {data} = await api.get<OfferType[]>(`${URLS.hotels}${id}${URLS.nearby}`);
         setOfferData((prevData) => ({...prevData, offersInNeighbourhood: data}));
       };
 
       const fetchReviews = async () => {
-        const {data} = await api.get<ReviewType[]>(`https://12.react.pages.academy/six-cities/comments/${id}`);
+        const {data} = await api.get<ReviewType[]>(`${URLS.comments}${id}`);
         setOfferData((prevData) => ({...prevData, reviews: data}));
       };
 
@@ -72,8 +73,8 @@ export default function OfferScreen(): JSX.Element {
 
   const {offer, offersInNeighbourhood, reviews} = offerData;
 
-  const handlNewReviewAdded = async (commentData: CommentData, testId: string) => {
-    const {data} = await api.post<ReviewType[]>(`https://12.react.pages.academy/six-cities/comments/${testId}`, commentData);
+  const handlNewReviewAdded = async (commentData: CommentData, offerId: string) => {
+    const {data} = await api.post<ReviewType[]>(`${URLS.comments}${offerId}`, commentData);
     setOfferData((prevData) => ({...prevData, reviews: data}));
   };
 
